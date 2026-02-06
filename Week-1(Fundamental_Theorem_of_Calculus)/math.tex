@@ -1,0 +1,230 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{cleveref}
+
+\geometry{a4paper, left=1in, top=0.5in, right=0.5in, bottom=0.5in}
+\onehalfspacing
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{\textbf{Remark}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\st}{\text{ such that }}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\title{\textbf{\LARGE The Fundamental Theorem of Calculus: \\ \large The Bridge Between Algebra and Geometry}}
+\author{\textbf{Tushar Kumar Aich} \\
+\small{Department of Mathematics, Tinsukia College}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    The Fundamental Theorem of Calculus (FTC) establishes a rigorous bridge between two distinct limit processes: differentiation and integration. While often perceived merely as a computational tool for evaluating integrals via antiderivatives, the theorem provides the critical conditions under which the integral of a rate of change accumulates the net change of a quantity. This article presents a formal treatment of both the First and Second Fundamental Theorems, examining the precise continuity and differentiability requirements necessary for their validity. By focusing on the analytical underpinnings rather than historical development or physical applications, we elucidate how the FTC unifies the local concept of the derivative with the global concept of the Riemann integral.
+\end{abstract}
+
+\section{Introduction}
+The Fundamental Theorem of Calculus servs as the cornerstone of mathematical analysis, establishing a profound connection between the two main branches of calculus: differential calculus and integral calculus. By linking these seemingly distinct operations, the theorem demonstrates differentiation and integration as inverse processes under appropriate conditions. The theorem consists of two primary parts:
+\begin{enumerate}
+    \item \textbf{The Rate of Accumulation:} Establishes that the derivative of an accumulation function is the original integrand, defining the inverse relationship.
+    \item \textbf{The Evaluation Theorem:} Provides the formula $\displaystyle \int_a^b f(x) \, dx = F(b) - F(a)$, allowing us to compute net change by evaluating an antiderivative at the endpoints of the interval.
+\end{enumerate}
+
+\section{The Derivative of an Integral}
+\begin{theorem}[\textbf{The First Fundamental Theorem of Calculus}]
+Let $F$ be integrable on $[a,b]$, and define $F$ on $[a,b]$ by \[F(x) = \int_a^x f\] If $f$ is continuous at $c$ in $[a,b]$, then $F$ is differentiable at $c$, and \[F'(c) = f(c)\]
+\end{theorem}
+
+\begin{proof}
+    Assuming $c \in (a,b)$. Then,
+    \[F'(c) = \lim_{h \to 0} \frac{F(c+h) - F(c)}{h}\]
+    Here,
+    \[
+    F(c+h) = \int_a^{c+h}f \quad \text{and} \quad F(c)=\int_a^c f
+    \]
+    For $h > 0$,
+    \[
+    \therefore \ F(c+h) - F(c) = \int_a^{c+h} f - \int_a^c f = \int_a^{c+h}f + \int_c^a f = \int_c^{c+h} f
+    \]
+    Let
+    \begin{align*}
+        m_h = \inf\{f(x): c \le x \le c+h\} \\
+        M_h = \sup\{f(x): c \le x \le c+h\}
+    \end{align*}
+    Now, using the \textbf{Mean Value Theorem of Integrals}, we get,
+    \begin{align*}
+        m_h \cdot h &\le \int_c^{c+h} f \le M_h \cdot h \\
+        \implies m_h \cdot h &\le F(c+h) - F(c) \le M_h \cdot h \\
+        \implies m_h &\le \frac{F(c+h) - F(c)}{h} \le M_h \quad (\text{since } \ h > 0)
+    \end{align*}
+
+    For $h < 0$,
+    \[
+    F(c+h) - F(c) = \int_c^{c+h} f = - \int_{c+h}^c f
+    \]
+    Also,
+    \begin{align*}
+        m_h = \inf\{f(x): c+h \le x \le c\} \\
+        M_h = \sup\{f(x): c+h \le x \le c\}
+    \end{align*}
+    Again, using the \textbf{Mean Value Theorem of Integrals}, we get,
+    \begin{align*}
+        m_h \cdot (-h) \le \int_{c+h}^{c} f \le M_h \cdot (-h)
+    \end{align*}
+    Now, since $h < 0 \implies -h > 0$
+    \begin{align*}
+        \therefore \ m_h &\le \frac{\displaystyle\int_{c+h}^{c} f}{-h} \le M_h \\
+        \implies \ m_h &\le \frac{F(c+h) - F(c)}{h} \le M_h
+    \end{align*}
+    Now, $h$ approaches $0$, $M_h$ approaches $m_h$. Also, since $f$ is continuous at $c$ :
+    \begin{align*}
+        \lim_{h \to 0} m_h = \lim_{h \to 0} M_h = f(c)
+    \end{align*}
+    By \textbf{Sandwich theorem of limits}, \[\lim_{h \to 0} \frac{F(c+h) - F(c)}{h} = f(c)\]
+    \[\therefore \ F'(c) = f(c)\]
+
+    \textbf{Case: $c = a$}
+
+    Now at $c = a, \ h > 0$.
+    \[
+    F'(a) = \lim_{h \to 0^+} \frac{F(a+h) - F(a)}{h}
+    \]
+    Here, $F(a) = \displaystyle\int_a^a f = 0$
+    \[\therefore \ F'(a) = \lim_{h \to 0^+} \frac{\displaystyle\int_a^{a+h} f}{h}\]
+    Let,
+    \begin{align*}
+        m_h = \inf\{f(x): a \le x \le a+h\} \\
+        M_h = \sup\{f(x): a \le x \le a+h\}
+    \end{align*}
+    Thus, by \textbf{Mean Value Theorem of Integrals}, we get,
+    \[m_h \le \frac{1}{h} \cdot \int_{a}^{a+h} f \le M_h\]
+    As, $h$ approaches $0$ (from the right), $M_h$ approaches $m_h$. Also, since $f$ is continuous at $a$ :
+    \begin{align*}
+        \lim_{h \to 0^+} m_h = \lim_{h \to 0^+} M_h = f(a)
+    \end{align*}
+    By \textbf{Sandwich theorem of limits}, \[\lim_{h \to 0^+} \frac{F(a+h) - F(a)}{h} = f(a)\]
+    \[\therefore \ F'(a) = f(a)\]
+
+    \textbf{Case: $c = b$}
+
+    Now, at $c = b, \ h < 0$.
+    \[
+    F'(b) = \lim_{h \to 0^-} \frac{F(b+h) - F(b)}{h}
+    \]
+    Here,
+    \[
+    F(b+h) - F(b) = \int_a^{b+h} f - \int_a^b f = \int_a^{b+h}f + \int_b^a f = \int_b^{b+h} f = -\int_{b+h}^{b} f
+    \]
+    Let,
+    \begin{align*}
+        m_h = \inf\{f(x): b+h \le x \le b\} \\
+        M_h = \sup\{f(x): b+h \le x \le b\}
+    \end{align*}
+    Again, using the \textbf{Mean Value Theorem of Integrals}, we get,
+    \begin{align*}
+        m_h \cdot (-h) \le \int_{b+h}^b f \le M_h \cdot (-h)
+    \end{align*}
+    Now, since $h < 0 \implies -h > 0$
+    \begin{align*}
+        \therefore \ m_h &\le \frac{\displaystyle\int_{b+h}^b f}{-h} \le M_h \\
+        \implies \ m_h &\le \frac{F(b+h) - F(b)}{h} \le M_h
+    \end{align*}
+    Now, $h$ approaches $0$ (from the left), $M_h$ approaches $m_h$. Also, since $f$ is continuous at $b$ :
+    \begin{align*}
+        \lim_{h \to 0^-} m_h = \lim_{h \to 0^-} M_h = f(b)
+    \end{align*}
+    By \textbf{Sandwich theorem of limits}, \[\lim_{h \to 0^-} \frac{F(b+h) - F(b)}{h} = f(b)\]
+    \[\therefore \ F'(b) = f(b)\]
+    Thus for any $c \in [a,b]$ \[F'(c) = f(c)\]
+\end{proof}
+
+\begin{corollary}
+    If $f$ is continuous on $[a,b]$ and $f = g'$ for some function $g$, then \[\int_{a}^{b} f = g(b) - g(a)\]
+\end{corollary}
+
+\begin{proof}
+    Since $f$ is continuous on $[a,b]$, thus $f$ is integrable on $[a,b]$. Let $x$ be a point on $[a,b]$ such that \[F(x) = \int_a^x f \quad x \in [a,b]\]
+    Thus, by \textbf{The First Fundamental Theorem of Calculus}, $F'(x) = f(x) = g'(x)$. Therefore, there exists a number $c$ such that:
+    \begin{equation}
+        F = g + c
+    \end{equation}
+    Here,
+    \begin{align*}
+        F(a) &= 0 \\
+        \implies g(a) + c &= 0 \\
+        \implies c &= -g(a)
+    \end{align*}
+    Substituting the value of $c$ back into equation (1), we get
+    \[F(x) = g(x) - g(a)\]
+    For $x = b$,
+    \[F(b) = \int_a^b f = g(b) - g(a)\]
+\end{proof}
+
+\section{The Evaluation Theorem}
+\begin{theorem}[\textbf{The Second Fundamental Theorem of Calculus}]
+    If $f$ is integrable on $[a,b]$ and $f = g'$ for some function g, then \[\int_{a}^{b} f = g(b) - g(a)\]
+\end{theorem}
+
+\begin{proof}
+    Let $P = \{t_0, t_1, \ldots, t_n\}$ be any partition on $[a,b]$ such that
+    \[
+    a = t_0 < t_1 < t_2 < \ldots < t_n = b
+    \]
+    Then, by the \textbf{Lagrange's Mean Value Theorem}, there exists a point $x_i \in [t_{i-1}, t_i]$ such that
+    \[
+    g'(x_i) = \frac{g(t_i) - g(t_{i-1})}{t_i - t_{i-1}} = f(x_i)
+    \]
+    Rearranging this gives:
+    \[
+    f(x_i) = \frac{g(t_i) - g(t_{i-1})}{t_i - t_{i-1}}
+    \]
+    If we define:
+    \begin{align*}
+        m_i = \inf\{f(x): t_{i-1} \le x \le t_i\} \\
+        M_i = \sup\{f(x): t_{i-1} \le x \le t_i\}
+    \end{align*}
+    Then,
+    \begin{align*}
+        \sum_{i = 1}^{n} m_i(t_i - t_{i-1}) &\le \sum_{i = 1}^{n} f(x_i)(t_i - t_{i-1}) \le \sum_{i = 1}^{n} M_i(t_i - t_{i-1}) \\
+        \implies L(f, P) &\le \sum_{i = 1}^{n} [g(t_i) - g(t_{i-1})] \le U(f, P)
+    \end{align*}
+
+    \begin{equation}
+        L(f, P) \le [g(t_1) - g(t_0)] + [g(t_2) - g(t_1)] + \ldots + [g(t_n) - g(t_{n-1})] \le U(f, P)
+    \end{equation}
+    In equation (2), the middle term is a telescoping sum which simplifies to $g(b) - g(a)$. Thus the equation becomes:
+    \[ L(f, P) \le g(b) - g(a) \le U(f, P)\]
+    Also, by the definition of integral,
+    \[
+    L(f, P) \le \int_{a}^{b} f \le U(f, P)
+    \]
+    Since, these inequalities hold for any partition $P$, and the integral is the unique number bounded by all lower and upper sums. Thus
+    \[\int_{a}^{b} f = g(b) - g(a) \]
+\end{proof}
+
+\newpage
+
+\begin{thebibliography}{9}
+    \bibitem{spivak}
+    Spivak, M. (2008). \textit{Calculus} (4th ed.). Publish or Perish.
+\end{thebibliography}
+
+\end{document}
