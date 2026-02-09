@@ -1,4 +1,4 @@
-# Rigorous Saturdays 📚
+# Rigorous Mathematics 📚
 
 ![LaTeX](https://img.shields.io/badge/Made%20with-LaTeX-47A141?style=flat&logo=latex&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
@@ -6,11 +6,11 @@
 
 ## About the Project
 
-**Rigorous Saturdays** is a weekly initiative dedicated to reconstructing the foundations of mathematics.
+**Rigorous Mathematics** is a repository dedicated to reconstructing the foundations of mathematics.
 
 In undergraduate studies, theorems are often introduced as computational tools or intuitive rules. While efficient, this approach often bypasses the deep analytical machinery that makes these theorems true.
 
-This repository serves as the technical companion to my LinkedIn series, where I break down one major theorem every weekend—moving beyond "how to calculate" to "why it works."
+This repository serves as the technical companion to keep my notes in LaTeX format in cloud so that I never loose them and this repository also works as an open source repository for everyone from the LinkedIn to get the source code and pdf.
 
 ## The Philosophy
 
