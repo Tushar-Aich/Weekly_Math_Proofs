@@ -6,10 +6,12 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage[none]{hyphenat}
 \usepackage{setspace}
+\usepackage{float}
 \usepackage{fancyhdr}
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{cleveref}
+\usepackage{tikz}
 
 \geometry{a4paper, left=1in, top=1in, right=1in, bottom=1in}
 \onehalfspacing
@@ -64,14 +66,83 @@ is called the region between the graphs $f$ and $g$.
 \end{theorem}
 
 \begin{proof}
-    First, we consider the case $f$ and $g$ are non-negative, as shown in the above figure. Let $G$ be the area under $g$ and $F$ be the area under $f$. The region S is the difference between these two areas:
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+        %\draw[step=1cm,gray,very thin] (-2,-2) grid (6,6);
+
+        \draw[thick, ->] (-2,-1) -- (6,-1);
+        \draw[thick, ->] (-1,-2) -- (-1,6);
+
+        \coordinate (f_start) at (0,1);
+        \coordinate (f_end) at (5,2.5);
+        \coordinate (g_start) at (0,4);
+        \coordinate (g_end) at (5,5);
+
+        \node[below] at (0,-1) {$a$};
+        \node[below] at (5,-1) {$b$};
+
+        \def\curveF{(f_start) .. controls (2,0) and (4,2.5) .. (f_end)}
+        \def\curveG{(g_start) .. controls (1,5.5) and (4,3) .. (g_end)}
+    
+        \fill[gray!40] \curveF -- (g_end) .. controls (4,3) and (1,5.5) .. (g_start);
+
+        \draw[thick] \curveF node[pos=0.65, below right] {$f$};
+        \draw[thick] \curveG node[pos=0.65, above] {$g$};
+
+        \draw (0,-1) -- (0,4);
+        \draw (5,-1) -- (5,5);
+
+        \node at (1.5, 2.5) {\large $S$};
+        \end{tikzpicture}
+
+        \caption{Non-negative functions}
+        \label{fig:1}
+    \end{figure}
+    
+    
+    First, we consider the case $f$ and $g$ are non-negative, as shown in the ~\Cref{fig:1}. Let $G$ be the area under $g$ and $F$ be the area under $f$. The region S is the difference between these two areas:
     \begin{align*}
         A &= Area(G) - Area(F) \\
         &= \int_a^b g(x)dx - \int_a^b f(x)dx
     \end{align*}
     By the \textbf{Linearity of integrals}, we can combine this into a single integral:
     \[A = \int_a^b [g(x) - f(x)]dx\]
-    Now, Consider the genral case where $f$ and $g$ are not necessarily non-negative, as shown in the above figure. Because $f$ is Riemann integrable on $[a,b]$, it is bounded. Thus there exists a constant $C \in \mathbb{R}$ such that:
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+        %\draw[step=1cm,gray,very thin] (-2,-2) grid (6,6);
+
+        \draw[thick, ->] (-1,0.5) -- (-1,6);
+
+        \coordinate (f_start) at (0,1);
+        \coordinate (f_end) at (5,2.5);
+        \coordinate (g_start) at (0,4);
+        \coordinate (g_end) at (5,5);
+
+        \def\curveF{(f_start) .. controls (2,0) and (4,2.5) .. (f_end)}
+        \def\curveG{(g_start) .. controls (1,5.5) and (4,3) .. (g_end)}
+    
+        \fill[gray!40] \curveF -- (g_end) .. controls (4,3) and (1,5.5) .. (g_start);
+
+        \draw[thick] \curveF node[pos=0.65, below right] {$f$};
+        \draw[thick] \curveG node[pos=0.65, above] {$g$};
+
+        \draw (f_start) -- (g_start);
+        \draw (f_end) -- (g_end);
+
+        \draw[thick, ->] (-2,3) -- (6,3);
+
+        \node[below left] at (0,3) {$a$};
+        \node[below right] at (5,3) {$b$};
+
+        \node at (1.5, 2.5) {\large $S$};
+        \end{tikzpicture}
+        \caption{General Case}
+        \label{fig:2}
+    \end{figure}
+    Now, Consider the genral case where $f$ and $g$ are not necessarily non-negative, as shown in the ~\Cref{fig:2}. Because $f$ is Riemann integrable on $[a,b]$, it is bounded. Thus there exists a constant $C \in \mathbb{R}$ such that:
     \begin{align*}
         |f(x)| &\le C \qquad \text{for all } x \in [a,b]\\
         \implies -C \le f(x) &\le C
@@ -92,6 +163,10 @@ is called the region between the graphs $f$ and $g$.
     \]
 \end{proof}
 
+\begin{remark}
+    It is important to note that this area formula holds true regardless of whether the functions lie above or below the x-axis. Because a vertical shift is a rigid transformation, shifting both functions upwards by a constant C to make them non-negative leaves the total area completely unchanged. The constant simply cancels out during the subtraction of the two functions.
+\end{remark}
+
 \section{The Length of a Curve}
 Two different types of geometrical properties or quantities are associated with curves. The first type depends only on the behaviour of the curve in the small, that is, in the immediate neighborhood of a point; such properties are those which can be expressed by means of derivatives of a point. Properties of the second type or properties in the large depend on the whole configuration of the curve, and are usually expressed analytically by means of the concept of integral.
 
@@ -105,7 +180,37 @@ Two different types of geometrical properties or quantities are associated with 
     \[
     P = \{x_0, x_1, \ldots, x_n\} \quad \text{where } a=x_0 < x_1 < \ldots < x_n = b
     \]
-    By joining the points $x_{i-1}, f(x_{i-1})$ and $x_i, f(x_i)$, we form an inscribed polygon, as shown in figure. The total length S of the curve is approximated by the sum of the lengths of these line segments.
+
+    \begin{figure}
+        \centering
+        \begin{tikzpicture}
+            %\draw[step=1cm,gray,very thin] (-2,-2) grid (7,5);
+
+            \draw[thick] (-2,-1) -- (7,-1);
+            %\draw[thick, ->] (-1,-2) -- (-1,6);
+
+            \draw[thick] (-1,2) .. controls (0,5) and (1,5) .. (2,3) .. controls (3.5,0) and (5,1) .. (6,3);
+
+            \draw[thick] (-1,2) -- (0,4.02) -- (1,4.3) -- (2,3) -- (3,1.55) -- (4,1.1) -- (5,1.6) -- (6,3);
+
+            \draw[dashed] (-1,2) -- (-1,-1);
+            \node[below left] at (-1,-1) (a) {\large$a$};
+
+            \draw[dashed] (6,3) -- (6,-1);
+            \node[below left] at (6,-1) (b) {\large$b$};
+
+            \draw[dashed] (3,-1) -- (3,1.55);
+            \node[below] at (3,-1) (x1) {\large$x_{i-1}$};
+            \node[below left] at (3,1.55) (fx1) {\large$(x_{i-1}, f(x_{i-1}))$};
+
+            \draw[dashed] (4,-1) -- (4,1.1);
+            \node[below] at (4,-1) (x2) {\large$x_{i}$};
+            \node[below right] at (4,1.1) (fx2) {\large$(x_{i}, f(x_{i}))$};
+        \end{tikzpicture}
+        \caption{Curve length approximation}
+        \label{fig:3}
+    \end{figure}
+    By joining the points $x_{i-1}, f(x_{i-1})$ and $x_i, f(x_i)$, we form an inscribed polygon, as shown in ~\Cref{fig:3}. The total length S of the curve is approximated by the sum of the lengths of these line segments.
 
     Let $\Delta x_i = x_i - x_{i-1}$ and $\Delta y_i = f(x_i) - f(x_{i-1})$. The length of the line segment connecting these two points is given by the distance formula:
     \begin{equation}
@@ -132,6 +237,10 @@ Two different types of geometrical properties or quantities are associated with 
     \]
 \end{proof}
 
+\begin{remark}
+    This theorem highlights a critical analytical bridge between discrete geometry and continuous calculus. While the length of the inscribed polygon relies purely on the standard algebraic distance formula, transitioning to the continuous integral formula explicitly requires Lagrange's Mean Value Theorem. It is this theorem that allows us to substitute the discrete vertical change with the continuous derivative $f^{\prime}(c_{i})$.
+\end{remark}
+
 \section{Volume of Revolving Curves}
 \begin{theorem}
     Let $f$ be a continuous non-negative function on $[a,b]$. Then the volume $V$ of the solid obtained by revolving the region bounded by the graph of $f$, the x-axis and the vertical lines $x=a$ and $x=b$ about the x-axis is given by:
@@ -152,7 +261,7 @@ Two different types of geometrical properties or quantities are associated with 
         m_i = \inf {f(x) : x \in [x_{i-1}, x_i]} \\
         M_i = \sup {f(x) : x \in [x_{i-1}, x_i]}
     \end{align*}
-    The solid slive $\Delta V_i$ generated over the subinterval $[x_{i-1}, x_i]$ is bounded by two cylinders: an inner cyliner of radius $m_i$ and an outer cylinder of radius $M_i$. Thus, the volume of the solid slice satisfies the inequality:
+    The solid slice $\Delta V_i$ generated over the subinterval $[x_{i-1}, x_i]$ is bounded by two cylinders: an inner cyliner of radius $m_i$ and an outer cylinder of radius $M_i$. Thus, the volume of the solid slice satisfies the inequality:
     \[
     \pi (m_i)^2 \Delta x_i \le \Delta V_i \le \pi (M_i)^2 \Delta x_i
     \]
@@ -175,4 +284,15 @@ Two different types of geometrical properties or quantities are associated with 
     V = \pi \int_a^b [f(x)]^2 \ dx
     \]
 \end{proof}
+
+\begin{remark}
+    While introductory calculus often presents the volume of a solid of revolution intuitively as a simple "sum of disks," its rigorous justification requires bounding the solid. The true volume is analytically "trapped" between inner and outer cylindrical slices, representing the Lower and Upper Darboux sums of the function $g(x)=\pi f^{2}$. Because the function is continuous, these bounding sums are guaranteed to converge to a single, unique integral limit as the partition norm approaches zero.
+\end{remark}
+
+\newpage
+
+\begin{thebibliography}{9}
+    \bibitem{spivak}
+    Spivak, M. (2008). \textit{Calculus} (4th ed.). Publish or Perish.
+\end{thebibliography}
 \end{document}
