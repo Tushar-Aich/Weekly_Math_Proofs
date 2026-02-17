@@ -1,0 +1,406 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{tikz}
+
+\geometry{a4paper, left=1in, top=1in, right=1in, bottom=1in}
+\onehalfspacing
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{\textbf{Remark}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\st}{\text{ such that }}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\title{\textbf{\Large The Singular Exception at $n = -1$ \\ \large A Rigorous Reconstruction of the Logarithm from Geometric Partitions to Cauchy’s Integral}}
+\author{\textbf{Tushar Kumar Aich} \\
+\small{Department of Mathematics, Tinsukia College}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    We usually say that the power rule of integration states that $\displaystyle\int_1^x t^n \ dt = \dfrac{x^{n+1} - 1}{n+1}$. But it is not entirely true, the rule breaks at a single point and that is $n = -1$. This paper talks about the development of power rule and failure of power rule at $n = -1$ and how that single failure bridged the gap between the quadrature of the rectangular hyperbola problem faced by Greeks and analytical development of logarithm.
+\end{abstract}
+
+\section{Introduction}
+The determination of the area under a curve historically known as quadrature, was a central problem in ancient Greek mathematics. While Archimedes solved the area under parabola by using the method of exhaustion but the quadrature of the rectangular hyperbola defined by the equation $xy=1 \left(\text{or } \ y = \dfrac{1}{x}\right)$ remained a big challenge. The classic geometry rules while solved the problems of other conic sections, failed to give a solid answer to the problem of hyperbola. The problem could not be solved by the geometric techniques available to Greek mathematicians and the problem remained in geometry for millenia.
+
+Centuries later, entirely independent of this geometric quest, in 1614, a breakthrough came in computational arithmetic driven by the need to simplify the lengthy and hard calculations of astronomy and navigation. John Napier in 1614, laid the foundation of logarithm. Napier's original formulation was kinematic, comparing velocities of moving particles and lacked the modern mathematical base we know now.
+
+However, recognizing the utility and usefulness of Napier's work, Henry Briggs collaborated with him to refine the system. Briggs introduced the base-10 common logarithm and defined its most useful property of transforming multiplication into addition, expressed algebraically as $\log (xy) = \log (x) + \log(y)$.
+
+\section{Development of power rule of integrals}
+\begin{theorem}
+    $\displaystyle\int_1^x t^p \ dt = \dfrac{x^{p+1} - 1}{p+1}$ for any $p \ge 0$.
+\end{theorem}
+
+\begin{proof}
+    First we split our main integral into two parts:
+    \[
+    \int_1^x t^p \ dt = \int_0^x t^p \ dt - \int_0^1 t^p \ dt \tag{1}
+    \]
+    Thus, now first we find the formula for $\displaystyle\int_0^x t^p \ dt$.
+
+    Let there be a partition $P = \{t_0, t_1, \ldots, t_k\}$ consisting of $n$ subintervals of equal length on $[0,x]$. Therefore, the length of each partition is $\Delta t_i = \dfrac{x}{n}$.
+
+    Thus
+    \[
+    t_0=0, t_1 = \frac{x}{n}, t_2 = \frac{2x}{n}, \ldots , t_i = \frac{ix}{n}
+    \]
+
+    Now, let
+    \begin{align*}
+        m_i = \inf \{f(x) : x \in [t_{i-1}, t_i]\} \\
+        M_i = \sup \{f(x) : x \in [t_{i-1}, t_i]\}
+    \end{align*}
+    Here, since the function $f(t)=t^p$ is monotone increasing on $[0,x]$ for $p \ge 0$, the infimum and supremum of each interval occur at the endpoints. Thus,
+    \[
+    m_i = f(t_{i-1}) = (t_{i-1})^p = \left[\frac{(i-1)x}{n}\right]^p \quad \text{and} \quad M_i = f(t_i) = (t_i)^p = \left[\frac{ix}{n}\right]^p
+    \]
+    Therefore,
+    \[
+    L(f,P) = \sum_{i=1}^n m_i.\Delta t_i =\sum_{i=1}^n \left[\frac{(i-1)x}{n}\right]^p.\frac{x}{n} = \left(\frac{x}{n}\right)^{p+1} \sum_{i=1}^n (i-1)^p \tag{2}
+    \]
+    Similarly,
+    \[
+    U(f,P) = \sum_{i=1}^n M_i.\Delta t_i =\sum_{i=1}^n \left[\frac{ix}{n}\right]^p.\frac{x}{n} = \left(\frac{x}{n}\right)^{p+1} \sum_{i=1}^n (i)^p \tag{3}
+    \]
+    Now,
+    \begin{align*}
+        (k+1)^{p+1} &= \sum_{r=0}^{p+1} \binom{p+1}{r}k^{p+1-r} = k^{p+1} + (p+1)k^p + \sum_{r=2}^{p+1}k^{p+1-r} \\
+        (k+1)^{p+1} - k^{p+1} &= (p+1)k^p + (\text{other polynomials of degree less than } p)
+    \end{align*}
+    Upon summing $k$ on both sides from 1 to $n$, on LHS, we get a telescopic sum simplifying to, $(n+1)^{p+1} - 1$, thus
+    \[
+    (n+1)^{p+1} - 1 = (p+1)\sum_{k=1}^n k^p + \sum_{k=1}^n (\text{other terms of degree less than } p)
+    \]
+    Dividing both sides by $n^{p+1}$ and taking limits as $n$ approaches $\infty$, the LHS becomes 1 and we get,
+    \[
+    1 = \lim_{n \to \infty} \left[ \frac{p+1}{n^{p+1}} \sum_{k=1}^n k^p + \frac{O(n^{m < p})}{n^{p+1}} \right]
+    \]
+    Here, on the RHS, in the second term the numerator is always less than the denominator. Thus as $n$ approaches $\infty$, the second term becomes $0$. Thus
+    \[
+    \lim_{n \to \infty} \left[ \frac{1}{n^{p+1}} \sum_{k=1}^n k^p \right] = \frac{1}{p+1} \tag{4}
+    \]
+    Here, as the number of subintervals $n$ approaches $\infty$, the norm of the partition $\|P\|$ approaches $0$. Thus
+    \[
+    \lim_{\|P\| \to 0} L(f,P) = x^{p+1}\lim_{n \to \infty}\left[ \frac{1}{n^{p+1}} \sum_{i=1}^n (i-1)^p \right] = \frac{x^{p+1}}{p+1}
+    \]
+    And,
+    \[
+    \lim_{\|P\| \to 0} U(f,P) = x^{p+1}\lim_{n \to \infty}\left[ \frac{1}{n^{p+1}} \sum_{i=1}^n i^p \right] = \frac{x^{p+1}}{p+1}
+    \]
+    Since we know every monotone function on closed interval is Riemann integrable. Therefore, $f(t)=t^p$ is integrable on $[0,x]$. Thus,
+    \[
+    \lim_{\|P\| \to 0} L(f,P) = \lim_{\|P\| \to 0} U(f,P) = \int_0^x t^p \ dt
+    \]
+    Thus \[\int_0^x t^p \ dt = \frac{x^{p+1}}{p+1} \tag{5}\]
+
+    Now if we swap $x$ with $1$, then we get,
+    \[\int_0^1 t^p \ dt = \frac{1^{p+1}}{p+1} = \frac{1}{p+1} \tag{6}\]
+    If we use equations $(5)$ and $(6)$ in $(1)$ we get,
+    \[
+    \int_1^x t^p \ dt = \int_0^x t^p \ dt - \int_0^1 t^p \ dt = \frac{x^{p+1}}{p+1} - \frac{1}{p+1} = \frac{x^{p+1} - 1}{p+1}
+    \]
+\end{proof}
+
+Here, if we want to prove for $p < 0$ using arithmetic partitions, then this approach encounters a fundamental analytical obstruction. Here, since $p < 0 \implies -p > 0$. Then, the equations (2) and (3) becomes,
+\[
+L(f,P) = \sum_{i=1}^n \left[ \frac{n}{(i-1)x} \right]^{(-p)}.\frac{x}{n} = \left(\frac{n}{x}\right)^{-(p+1)} \sum_{i=1}^n \left[\frac{1}{i-1}\right]^{(-p)}
+\]
+and
+\[
+U(f,P) = \sum_{i=1}^n \left[ \frac{n}{ix} \right]^{(-p)}.\frac{x}{n} = \left(\frac{n}{x}\right)^{-(p+1)} \sum_{i=1}^n \left[\frac{1}{i}\right]^{(-p)}
+\]
+respectively. But the resulting summations produce divergent series, which means this method fails to give a finite value for the integral.
+
+Solving this problem \textit{Pierre de Fermat} gave the idea of geometric partitions for finding the area under the curve of $t^p$ for $p < 0$.
+
+\begin{theorem}
+    $\displaystyle\int_1^x t^p \ dt = \dfrac{x^{p+1} - 1}{p+1}$ for any $p < 0$ and $p \ne -1$.
+\end{theorem}
+
+\begin{proof}
+    Let there be a partition $P=\{t_0, t_1, \ldots, t_n\}$ consisting of $n$ subintervals such that
+    \[
+    t_0=1, t_1=r, t_2=r^2, \ldots, t_n=r^n = x \quad \text{where } \ r=x^{\frac{1}{n}}
+    \]
+    Thus, the length of each partition \[\Delta t_i = t_i - t_{i-1} = ar^i - ar^{i-1} = ar^{i-1}(r-1)\]
+    Let
+    \begin{align*}
+        m_i = \inf \{f(x) : x \in [t_{i-1}, t_i]\} \\
+        M_i = \sup \{f(x) : x \in [t_{i-1}, t_i]\}
+    \end{align*}
+    Here, since the function $f(t)=t^p$ is monotone decreasing on $[1,x]$ for $p < 0$, the infimum and supremum of each interval occur at the endpoints. Also, the infimum occurs at right endpoint and the supremum occurs at left endpoint. Thus,
+    \[
+    m_i = f(t_i) = (t_i)^p = r^{pi} \quad \text{and} \quad M_i = f(t_{i-1}) = (t_{i-1})^p = r^{p(i-1)}
+    \]
+    Thus
+    \begin{align*}
+    L(f,P) &= \sum_{i=1}^n m_i.\Delta t_i = \sum_{i=1}^n r^{pi}.r^{i-1}(r-1) = (r-1) \sum_{i=1}^n r^{(p+1)i-1} \\
+    & \quad =\left(\frac{r-1}{r}\right) \sum_{i=1}^n (r^{p+1})^i \tag{7}
+    \end{align*}
+    Similarly,
+    \begin{align*}
+    U(f,P) &= \sum_{i=1}^n M_i.\Delta t_i = \sum_{i=1}^n r^{p(i-1)}.r^{i-1}(r-1) = (r-1) \sum_{i=1}^n (r^{p+1})^{i-1} \tag{8}
+    \end{align*}
+
+    Now in equation (7), the RHS is sum of a geometric series with 1st term and common ratio of $r^{p+1}$. Thus
+    \[
+    L(f,P) = \left(\frac{r-1}{r}\right) \sum_{i=1}^n (r^{p+1})^i = \left(\frac{r-1}{r}\right).r^{p+1}\left[\frac{(r^{p+1})^n-1}{r^{p+1}-1}\right]
+    \]
+    Now if we substitute one of the terms of RHS with $r=x^{\frac{1}{n}}$, then
+    \[
+    L(f,P)= \left(\frac{r-1}{r}\right).r^{p+1}\left[\frac{(x^{\frac{p+1}{n}})^n-1}{r^{p+1}-1}\right] = (x^{p+1}-1).\left[\frac{r^{p+1}(r-1)}{r(r^{p+1}-1)}\right]
+    \]
+    Thus
+    \[
+    L(f,P) = (x^{p+1}-1).\left[\frac{r^{p+2}-r^{p+1}}{r^{p+2}-r}\right]
+    \]
+    Here, as the number of subintervals $n$ approaches $\infty$, the norm of partition $\|P\|$ approaches $0$ and $r$ approaches $1$. Thus
+    \[
+    \lim_{\|P\| \to 0} L(f,P) = (x^{p+1}-1).\lim_{r \to 1}\left[\frac{r^{p+2}-r^{p+1}}{r^{p+2}-r}\right]
+    \]
+    The above equation gives indeterminant form, thus we use L'Hospital rule,
+    \begin{align*}
+        \lim_{\|P\| \to 0}L(f,P) &= (x^{p+1}-1).\lim_{r \to 1}\left[\frac{(p+2)r^{p+1}-(p+1)r^{p}}{(p+2)r^{p+1}-1}\right] \\
+        &= (x^{p+1}-1).\left[\frac{(p+2)-(p+1)}{(p+2)-1}\right] \\
+        &= \frac{x^{p+1}-1}{p+1}
+    \end{align*}
+    Similarly, we can show
+    \[
+    \lim_{\|P\| \to 0}U(f,P) = \frac{x^{p+1}-1}{p+1}
+    \]
+    Also, we know every monotone function on closed interval is Riemann integrable. Therefore, $f(t)=t^p$ is integrable on $[1,x]$. Thus,
+    \[
+    \lim_{\|P\| \to 0}L(f,P) = \lim_{\|P\| \to 0}U(f,P) = \int_1^x t^p \ dt
+    \]
+    Thus
+    \[
+    \int_1^x t^p \ dt = \frac{x^{p+1}-1}{p+1} \tag{9}
+    \]
+\end{proof}
+
+\vspace{1cm}
+
+In the previous proof, we explicitly mentioned for $p \ne -1$. But Why? In equation (9) if we take $p = -1$ then the equation becomes $\dfrac{0}{0}$ which is an indeterminant form, thus we cannot take $p=-1$. Thus till now we have,
+
+\begin{equation*}
+    \int_1^x t^p \ dt = 
+    \begin{cases}
+        \dfrac{x^{p+1}-1}{p+1}, & \text{if } \ p \ne -1 \\
+        \text{undefined for now}, & \text{if } \ p = -1
+    \end{cases}
+\end{equation*}
+
+\section{Analytical development of logarithm}
+\textit{Grégoire de Saint-Vincent}, a Belgian Jesuit, spent much of his professional life working on various quadrature problems. He wrote about quadrature of hyperbola in his comprehensive 1647 work \textit{Opus geometricum quadraturae circuli et sectionum coni} (Geometric work on the quadrature of the circle and of conic sections) where he showed that the rectangles used in approximating the area under the hyperbola all have equal areas.
+
+\begin{theorem}
+    Let $f(t) = \frac{1}{t}$ for $t > 0$. If an interval is partitioned geometrically such that the ratio of consecutive endpoints is constant, the area under the curve for each partitioned segment is equal.
+\end{theorem}
+
+\begin{proof}
+    Consider the rectangular hyperbola $f(t) = \dfrac{1}{t}$. We wish to find the area over an interval $[a,b]$. Let there be a partition $P = \{t_0, t_1, \ldots, t_n\}$ on $[a,b]$ such that
+    \[
+    t_0=a, t_1=ar, t_2=ar^2, \ldots, t_n=ar^n=b
+    \]
+    where $r>0$ is the common ratio between the points. Thus the length of each interval is,
+    \[
+    \Delta t_i = t_i - t_{i-1} = ar^i - ar^{i-1} = ar^{i-1}(r-1)
+    \]
+    If, we take the left endpoint as the height of the $i$-th rectangle then,
+    \[
+    f(t_{i-1}) = \frac{1}{t_{i-1}} = \frac{1}{ar^{i-1}}
+    \]
+    Thus the area of the $i$-th rectangle is given by:
+    \[
+    (Area)_i = f(t_{i-1}).\Delta t_i = \frac{1}{ar^{i-1}} . ar^{i-1}(r-1) = r-1
+    \]
+    Here, we clearly see that the terms $ar^{i-1}$ cancels out perfectly and we are left out with $r-1$. Thus the area depends on the ratio and not on the starting point $a$ and index $i$.
+\end{proof}
+
+Thus, here it is showed that as the distance from the starting point grows geometrically, the corresponding areas grow in equal increments, that is, arithmetically. But this in turn implies that the relation between area and distance is logarithmic. One of Saint-Vincent's students, \textit{Alphonso Anton de Sarasa} wrote down this relation explicitly.
+
+\begin{theorem}
+    Let $A(x)$ denote the area under the rectangular hyperbola $y = \frac{1}{t}$ from $1$ to $x$. Then $A(xy) = A(x) + A(y)$.
+\end{theorem}
+
+\begin{proof}
+    If we take $A(xy)$ to be the area under the hyperbola on the interval $[1,xy]$. Thus
+    \[
+    A(xy)=\int_1^{xy} \frac{1}{t} \ dt
+    \]
+    Similarly if we define $A(x)$ and $A(y)$, then
+    \[
+    A(x)=\int_1^{x} \frac{1}{t} \ dt \quad \text{and} \quad A(y)=\int_1^{y} \frac{1}{t} \ dt
+    \]
+    Using the additive property of area, we can split the area of $A(xy)$ into two parts:
+    \[
+    A(xy) = \int_1^{xy} \frac{1}{t} \ dt = \int_1^{x} \frac{1}{t} \ dt + \int_x^{xy} \frac{1}{t} \ dt = A(x) + \int_x^{xy} \frac{1}{t} \ dt \tag{10}
+    \]
+    Now if we look at the second integral of the RHS on the interval $[x, xy]$, the ratio of the endpoints of this interval is $\dfrac{xy}{x} = y = \dfrac{y}{1}$ which is the ratio of the interval $[1,y]$. Thus by using the Theorem 3.1, we can say that the area under the curve on both intervals are strictly equal.
+    \[
+    \int_x^{xy} \frac{1}{t} = \int_1^{y} \frac{1}{t} = A(y)
+    \]
+    Thus, equation (10) becomes:
+    \[
+    A(xy)=A(x)+A(y)
+    \]
+    This proves that the area function of the rectangular hyperbola completely satisfies the fundamental functional equation of logarithm.
+\end{proof}
+
+So we have that the function $A(t) = \log (t)$ does indeed give the area under the hyperbola as a function of the variable $t$, but it is not yet suitable for numerical computations, because no particular base is implied.
+
+\vspace{0.5cm}
+
+Leonhard Euler provided a comprehensive treatment of the exponential function and defined the natural logarithm as its inverse in his foundational two-volume work, \textit{Introductio in analysin infinitorum} (Introduction to the Analysis of the Infinite), published in 1748. 
+
+Euler defined $e = \displaystyle\lim_{n \to \infty} \left(1 + \dfrac{1}{n}\right)^n$. He also defined $e^x$ as the only function with the property of having it's derivative equal to the function, \textit{i.e.}, $\dfrac{d}{dx}(e^x) = e^x$. Just like the common logarithm of a number $y > 0$ is the number $x$ for which $10^x = y$. Similarly Euler defined natural logarithm of a number $y > 0$ is the number $x$ for which $e^x = y$, and just like we write common logarithm as $x \log_{10} y$, we write natural logarithm as $x = \ln y$. Thus he defined $\ln x$ as the inverse of $e^x$.
+
+Finally \textit{Augustin-Louis Cauchy} in his treatise \textit{Cours d'analyse}(1821) unified everything and gave the functional definition of logarithm and then in his another treatise \textit{Résumé des leçons... sur le calcul infinitésimal}(1823), he gave the definite integral definition of logarithm.
+
+\begin{theorem}
+    If a function $f:(0,\infty) \to \mathbb{R}$ is continuous and satisfies the equation $f(xy) = f(x) + f(y)$ for all $x,y > 0$, then $f(x) = c \cdot \ln (x)$.
+\end{theorem}
+
+\begin{proof}
+    First we determine the value of $f(1)$ by substituting $x=y=1$, we get
+    \[
+    f(1\cdot1) = f(1) + f(1) = 2f(1) \implies f(1)=0
+    \]
+    Next, we check for indices by substituting $y=x$, we get
+    \[
+    f(x^2) = f(x) + f(x) \implies f(x^2) = 2f(x)
+    \]
+    By induction, we can prove for any $n \in \mathbb{I}^+$,
+    \[
+    f(x^n) = nf(x) \tag{11}
+    \]
+    Now we extend this property for rationals. Let $q = \dfrac{m}{n}$ where $m,n \in \mathbb{I}^+$. Now we find the value of $f(x^m)$. From (11), we have,
+    \[
+    f(x^n) = nf(x) \tag{12}
+    \]
+    Again we can rewrite $f(x^m)$ as $f\left( \left( x^{\dfrac{m}{n}} \right)^n \right)$. Now if we try to find the value of $f\left( \left( x^{\dfrac{m}{n}} \right)^n \right)$ then,
+    \[
+    (11) \implies \ f\left( \left( x^{\dfrac{m}{n}} \right)^n \right) = nf\left( x^{\dfrac{m}{n}} \right) \implies \ f(x^m) = nf\left( x^{\dfrac{m}{n}} \right) \tag{13}
+    \]
+    From (12) and (13), we get,
+    \begin{align*}
+        mf(x) &= nf\left( x^{\dfrac{m}{n}} \right) \\
+        \implies \ f\left( x^{\dfrac{m}{n}} \right) &= \frac{m}{n}f(x)
+    \end{align*}
+    Thus, we prove that for any $q \in \mathbb{Q}$, $f(x^q) = qf(x)$.
+
+    To extend this property for any real number $\mathbb{R}$ which contains both rational and irrational numbers, we use the property of continuity. Since the ratitonal numbers $\mathbb{Q}$ are dense in real numbers $\mathbb{R}$. Thus, for any $r \in \mathbb{R}$, there exists a sequence of rational numbers $(q_k)$ such that $\displaystyle\lim_{k \to \infty} q_k = r$
+    \[
+    \therefore \ f(x^r) = f \left(x^{\displaystyle\lim_{k \to \infty} q_k = r}\right) = \lim_{k \to \infty} f(x^{q_k}) = \lim_{k \to \infty} q_k \cdot f(x) = r\cdot f(x)
+    \]
+    Since, Euler defined $e^x$ and $\ln (x)$ as inverse of each other, we can write $x = e^{\ln (x)}$.
+    \[
+    \therefore \ f(x) = \left(e^{\ln (x)}\right) = \ln (x) \cdot f(e)
+    \]
+    Taking $f(e)$ as constant $c$,
+    \[
+    f(x) = c \cdot \ln (x)
+    \]
+    Thus, if a continuous function satisfies the equation $f(xy)=f(x)+f(y)$ for any $x,y > 0$, then $f(x) = c \cdot \ln (x)$.
+\end{proof}
+
+Now, if we take $y = \ln (x)$ for any $x > 0$, then by Euler's inverse definition, $x = e^y$. Now if we differentiate both sides, with respect to $x$, we get
+\begin{align*}
+    1 &= e^y \frac{dy}{dx} \\
+    \implies \ \frac{1}{e^y} &= \frac{dy}{dx}
+\end{align*}
+
+Now, we have taken $e^y = x$ and $y = \ln (x)$. Thus,
+\[
+\frac{d}{dx}[\ln (x)] = \frac{1}{x} \tag{14}
+\]
+Thus, for any $x > 0$, if $y = \ln (x)$, then $\dfrac{dy}{dx} = \dfrac{1}{x}$.
+
+\begin{theorem}
+    For any $x > 0$, $\displaystyle\int_1^x \frac{1}{t} \ dt = \ln (x)$.
+\end{theorem}
+
+\begin{proof}
+    Let, $A(x) = \displaystyle\int_1^x \frac{1}{t} \ dt$. Since the function $f(t) = \dfrac{1}{t}$ is continuous on $(0, \infty)$. By the first fundamental theorem of calculus, $A(x)$ is differentiable on the interval. Because differentiability implies continuity, $A(x)$ is a strictly continuous function.
+
+    Now as geometrically established by \textit{de Sarasa} as in Theorem 3.2,
+    \[
+    A(xy) = \int_{1}^{xy} \frac{1}{t} \ dt = \int_{1}^{x} \frac{1}{t} \ dt + \int_{x}^{xy} \frac{1}{t} \ dt = A(x) + A(y)
+    \]
+    Thus we have a continuous function $A(x)$ which satisfies the equation $A(xy) = A(x) + A(y)$. By Theorem 3.3,
+    \[
+    A(x) = c \cdot \ln (x) \tag{15}
+    \]
+    From (14), we know differentiation of $\ln (x)$ is $\dfrac{1}{x}$
+    \[
+    \therefore \ A'(x) = c \cdot \frac{1}{x}
+    \]
+    By the first fundamental theorem of calculus, $A'(x) = \dfrac{1}{x}$
+    \[
+    \therefore \ \frac{1}{x} = c \cdot \frac{1}{x}
+    \]
+    Multiplying both sides by $x$, we find $c = 1$. By substituting the value of $c$ in (15), we get
+    \begin{align*}
+        A(x) &= \ln (x) \\
+        \implies \ \int_{1}^{x} \frac{1}{t} \ dt &= \ln (x)
+    \end{align*}
+\end{proof}
+
+Thus we find that the power rule of integration fundamentally fails at $n=-1$. However this failure leads to the geometric development of logarithm as the area under the rectangular hyperbola and finally to the functional definition of logarithm as the definite integral of $\dfrac{1}{t}$ from $1$ to $x$.
+
+\begin{equation*}
+    \int_1^x t^p \ dt = 
+    \begin{cases}
+        \dfrac{x^{p+1}-1}{p+1}, & \text{if } \ p \ne -1 \\
+        \ln (x), & \text{if } \ p = -1
+    \end{cases}
+\end{equation*}
+
+\section{Conclusion}
+The power rule of integration, while a powerful tool for evaluating integrals of the form $\displaystyle\int t^n \ dt$, encounters a singular exception at $n = -1$. This exception led to a deeper understanding of logarithmic functions. The failure of the power rule at this point led to the geometric exploration of the area under the rectangular hyperbola,which in turn paved the way for the analytical development of logarithms.
+
+\vspace{0.5em}
+
+While everything started with Greeks unable to determine the quadrature of a rectangular hyperbolic curve due to the failure of their classical geometric interpretations. Much later around the 17-th century, John Napier created logarithm solely for simplifying astronomical calculations as a tool while another English mathematician Henry Briggs refined the logarithm and gave the base-10 common logarithm and defined its property of transtioning from multiplication to addition.
+
+\vspace{0.5em}
+
+Then, Grégoire de Saint-Vincent and his student Alphonso Anton de Sarasa established the geometric relationship between the area under the rectangular hyperbola and logarithmic functions. Finally, Leonhard Euler and Augustin-Louis Cauchy provided the analytical foundation for logarithms, culminating in the integral definition of logarithm as the area under the curve of $\dfrac{1}{t}$ from $1$ to $x$.
+
+\begin{thebibliography}{9}
+
+    \bibitem{spivak} 
+    Spivak, M. (2008).
+    \textit{Calculus} (4th ed.). 
+    Publish or Perish, Inc.
+
+    \bibitem{maor}
+    Maor, E. (1994).
+    \textit{e: The Story of a Number}. Princeton University Press.
+\end{thebibliography}
+
+\end{document}
