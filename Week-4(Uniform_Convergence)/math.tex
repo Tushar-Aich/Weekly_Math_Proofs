@@ -1,0 +1,548 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{tikz}
+
+\geometry{a4paper, left=1in, top=1in, right=1in, bottom=1in}
+\onehalfspacing
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{\textbf{Remark}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\st}{\text{ such that }}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\title{\textbf{\Large Beyond Pointwise Limits \\ \large Preserving Continuity, Integrability, and Differentiability}}
+\author{\textbf{Tushar Kumar Aich} \\
+\small{Department of Mathematics, Tinsukia College}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    This expository paper explores the critical distinction between pointwise and uniform convergence of function sequences in Real Analysis. We delve into the definitions, properties, and implications of both types of convergence, highlighting how uniform convergence preserves continuity, integrability, and differentiability, while pointwise convergence does not necessarily do so. Through rigorous proofs, we demonstrate the significance of uniform convergence in ensuring the stability of function properties under limits, thereby providing a deeper understanding of the behavior of function sequences in mathematical analysis.
+\end{abstract}
+
+\section{Introduction}
+We almost always read first about the sequence and series whose terms were numbers. It was only in particularly simple cases that the terms depended on a variable. In this paper we will talk about the sequences and series whose term depended on a variable, \textit{i.e.}, those whose terms are real valued functions defined on an interval as domain. We accordingly, denote the terms by $f_n(x)$ and consider sequences and series of the form $\{f_n\}$ and $\sum f_n$ respectively.
+
+\section{Pointwise Convergence}
+Suppose $\{f_n\}, n = 1, 2, 3, \ldots$ is a sequence of functions, defined on an interval $[a,b]$ say $I$. To each point $\psi \in I$, there corresponds a sequence of numbers $\{f_n(\psi)\}$ with terms $f_1(\psi), f_2(\psi), f_3(\psi), \ldots$.
+
+Now, let the sequence $\{f_n(\psi)\}$ converge for every $\psi \in I$.
+
+\noindent Let $\{f_n(\psi)\}$ converge to $\{f(\psi)\}$.
+
+Similarly, Let the sequences at all points $\psi, \eta, \zeta, \ldots$, of $I$ converge to
+\[f(\psi), f(\eta), f(\zeta), \ldots \tag{1}\]
+Now, a real valued function $f$ with domain $I$ and range as the set defined by (1), so that its value $f(\psi)$ for every $\psi \in I$ is $\lim \{f_n(\psi)\}$
+\[
+\lim_{n \to \infty} f_n(x) = f(x) \quad \forall \ x \in I
+\]
+
+The function $f$ referred to the pointwise limit of the sequence $\{f_n\}$ on $[a,b]$, and the sequence $\{f_n\}$ is said to be pointwise convergent to $f$ on $[a,b]$.
+
+Similarly, if the series $\sum f_n$ converges for every point $x \in I$, and we defined
+\[
+f(x) = \sum_{n = 1}^{\infty} f_n (x) \quad \forall \ x \in [a,b]
+\]
+
+\noindent $\e$ - \textbf{N definition}
+
+\[
+\forall \ \e > 0 \ \exists \ N \in \mathbb{N} \st |f_n(x) - f(x)| < \e \ \forall \ n \ge N
+\]
+\begin{enumerate}
+    \item The geomteric series \[1+x+x^2+x^3+\ldots\] converges to $(1-x)^{-1}$ in the interval $-1<x<1$.
+    
+    \noindent All the items are bounded without the sum being so.
+    \item For the series $\displaystyle\sum_{n=1}^{\infty} f_n$, where $f_n(x) = \dfrac{x^2}{(1+x^2)^n}$
+    
+    At, $x = 0$, $f_n(0) = 0$, so that sum of the series $f(0) = 0$.
+
+    At $x \ne 0$, it formas a geometric series with common ratio $\dfrac{1}{1+x^2}$, so that its sum function $f(x) = 1+x^2$.
+    \[
+    f(x) = \begin{cases}
+        0 &, x = 0 \\
+        1+x^2 &, x \ne 0
+    \end{cases}
+    \]
+    Here each term of the series is continuous but the sum $f$ is not.
+
+    \item The sequence $\{f_n\}$ where $f_n(x) = \dfrac{\sin nx}{\sqrt{n}}$,
+    
+    Here, $\displaystyle \lim_{n \to \infty} f_n(x) = f(x) = 0$
+    \[
+    \therefore \ f'(x) = 0, \text{ and so } f'(0) = 0
+    \]
+    But $f_n'(x) = \sqrt{n} \cos nx$, and so $f_n'(0) = 0$. So as $n \to \infty$, $f_n'(x) \to \infty$.
+
+    Thus, at $x = 0$ the sequence $\{f_n'(x)\}$ diverges whereas the limit function $f'(x) = 0$.
+
+    \item Consider the sequence $\{f_n\}$
+    \[ f_n(x) = nx(1 - x^2)^n, \quad 0 \le x \le 1, \quad n = 1, 2, 3, \dots \]
+
+    For $0 < x \le 1$, $\displaystyle\lim_{n \to \infty} f_n(x) = 0$
+
+    At $x = 0$, each $\displaystyle f_n(0) = 0$ so, $\displaystyle\lim_{n \to \infty} f_n(0) = 0$
+
+    Thus the limit $\displaystyle f(x) = \lim_{n \to \infty} f_n(x) = 0$ for $x \in [0, 1]$.
+
+    \[ \therefore \int_0^1 f(x) \, dx = 0. \]
+
+    Again, $\displaystyle\int_0^1 f_n(x) \, dx = \int_0^1 nx(1 - x^2)^n \, dx = \frac{n}{2n + 2}$
+
+    \[ \therefore \lim_{n \to \infty} \left\{ \int_0^1 nx(1 - x^2)^n \, dx \right\} = \frac{1}{2}. \]
+
+    \[ \lim_{n \to \infty} \left\{ \int_0^1 f_n \, dx \right\} \ne \int_0^1 \left[ \lim_{n \to \infty} \{f_n\} \right] dx. \]
+\end{enumerate}
+
+To overcome all the above problems, we need a stronger type of convergence than the pointwise convergence. This is called the uniform convergence.
+
+\section{Uniform Convergence}
+\begin{definition}
+    A sequence $\{f_n\}$ is said to converge uniformly on an interval $[a,b]$ to a function $f$, if for any $\e > 0$, there exists a natural number $N$(independent of $x$ but dependent on $\e$) such that $\forall \ x \in [a,b]$, \[|f_n(x) - f(x)| < \e, \quad \forall \ n \ge N. \]
+\end{definition}
+
+Similarly, a series $\sum f_n$ is said to converge uniformly on $[a,b]$ if its sequence of partial sums $\{S_n\}$ defined by \[S_n(x) = \sum_{i=1}^{n} f_i(x)\] converges uniformly on $[a,b]$.
+
+Thus $\sum f_n$ converges uniformly to $f$ on $[a,b]$ if, for any $\e > 0$, there exists a natural number $N$ such that $\forall \ x \in [a,b]$, \[|S_n(x) - f(x)| < \e, \quad \forall \ n \ge N. \]
+
+\subsection{Tests for Uniform Convergence}
+
+\subsubsection*{For Sequence}
+\begin{theorem}
+    Let $\{f_n\}$ be a sequence of functions such that 
+    \[ \lim_{n \to \infty} f_n(x) = f(x), \quad x \in [a, b] \]
+    and let 
+    \[ M_n = \sup_{x \in [a, b]} |f_n(x) - f(x)| \]
+    Then $f_n \to f$ uniformly if and only if $M_n \to 0$ as $n \to \infty$.
+\end{theorem}
+
+\begin{proof}
+    Let $f_n \to f$ uniformly on $[a, b]$.
+    Thus, $\forall \ \e > 0 \ \exists \ N \in \mathbb{N}$ such that 
+    \[ |f_n(x) - f(x)| < \e \quad \forall \ n \ge N \text{ and } \forall \ x \in [a, b]. \]
+
+    Therefore, we can say that the supremum of $|f_n(x) - f(x)|$ on $x \in [a, b]$ will be less than or equal to $\e$.
+    \[ \therefore \ \sup_{x \in [a, b]} |f_n(x) - f(x)| \le \e \quad \forall \ n \ge N. \]
+    \[ \therefore \ M_n \le \e \]
+    \[ \text{or } M_n - 0 \le \e \quad \forall \ n \ge N \]
+    \[ \therefore \ M_n \to 0 \text{ as } n \to \infty. \]
+
+    Conversely, let $M_n \to 0$ as $n \to \infty$. So $\forall \ \e > 0 \ \exists \ N \in \mathbb{N}$ such that 
+    \[ M_n < \e \quad \forall \ n \ge N \]
+    \[ \implies \sup \{ |f_n(x) - f(x)| : x \in [a, b] \} < \e \quad \forall \ n \ge N. \]
+    \[ \therefore \ \e \text{ is an upper bound of } |f_n(x) - f(x)| \]
+    \[ \therefore \ |f_n(x) - f(x)| < \e \quad \forall \ n \ge N \text{ and } x \in [a, b]. \]
+    \[ \therefore \ f_n \to f \text{ uniformly on } [a, b] \]
+\end{proof}
+
+\subsubsection*{For Series}
+\begin{theorem}[Weierstrass M-test]
+    A series of functions $\sum f_n$ will converge uniformly (and absolutely) on $[a, b]$ if $\exists$ a convergent series $\sum M_n$ of positive numbers such that for all $x \in [a, b]$, $|f_n(x)| \le M_n, \forall \ n$.
+\end{theorem}
+
+\begin{proof}
+    Let $\e > 0$. \\
+    Since $\sum M_n$ is convergent, therefore by Cauchy criterion, $\exists \ N \in \mathbb{N}$ such that 
+    \[ |M_{m+1} + M_{m+2} + \dots + M_n| < \e, \quad \forall \ n > m \ge N. \]
+
+    Hence, $\forall \ x \in [a, b]$ and $\forall \ n > m \ge N$, we have 
+    \[ |f_{m+1}(x) + f_{m+2}(x) + \dots + f_n(x)| \le |f_{m+1}(x)| + |f_{m+2}(x)| + \dots + |f_n(x)| \tag{1} \]
+
+    Since $|f_n(x)| \le M_n, \forall \ n$,
+    \[ \therefore \ |f_{m+1}(x)| \le M_{m+1}, |f_{m+2}(x)| \le M_{m+2}, \dots \]
+
+    \[ \therefore \ (1) \implies |f_{m+1}(x) + f_{m+2}(x) + \dots + f_n(x)| \le M_{m+1} + M_{m+2} + \dots + M_n < \e, \]
+    \[ \forall \ n > m \ge N. \]
+
+    $\therefore$ we can say, $|f_{m+1}(x) + f_{m+2}(x) + \dots + f_n(x)| < \e$. \\
+    $\therefore \ \sum f_n$ satisfies the Cauchy criterion. \\
+    $\therefore \ \sum f_n$ is uniformly and absolutely convergent.
+\end{proof}
+
+\subsection{Properties of Uniform Convergence}
+\begin{theorem}
+    If a sequence $\{f_n\}$ converges uniformly in $[a, b]$, and $x_0 \in [a, b]$ s.t. 
+    \[ \lim_{x \to x_0} f_n(x) = a_n, \quad n = 1, 2, 3, \dots \]
+    then \begin{enumerate}
+        \item $\{a_n\}$ converges
+        \item $\displaystyle \lim_{x \to x_0} f(x) = \lim_{n \to \infty} a_n$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since $\{f_n\}$ converges uniformly on $[a, b]$, therefore by Cauchy's criterion, $\forall \ \e > 0 \ \exists \ N \in \mathbb{N}$ (independent of $x$) s.t. $\forall \ x \in [a, b]$,
+        \[ |f_n(x) - f_m(x)| < \frac{\e}{2} \quad \forall \ n > m \ge N. \]
+
+        Keeping $n$ and $m$ fixed and letting $x \to x_0$, we get,
+        \[ |a_n - a_m| \le \frac{\e}{2} < \e \quad \forall \ n > m \ge N. \]
+
+        Thus the sequence $\{a_n\}$ converges. [By Cauchy criterion]
+
+        \item Since $\{f_n\}$ converges uniformly on $[a, b]$. Thus $\forall \ \e > 0 \ \exists \ N_1 \in \mathbb{N}$ such that $\forall \ x \in [a, b]$,
+        \[ |f_n(x) - f(x)| < \frac{\e}{3} \quad \forall \ n \ge N_1 \tag{i} \]
+
+        Now, since we know $\{a_n\}$ converges, let it converge to some $A$.
+
+        $ \therefore \exists \ N_2 \in \mathbb{N} \st \forall \ x \in [a, b], $
+        \[ |a_n - A| < \frac{\e}{3} \quad \forall \ n \ge N_2 \tag{ii} \]
+
+        Let $N = \max(N_1, N_2)$.
+
+        Again, since $\displaystyle\lim_{x \to x_0} f_n(x) = a_n \ \forall \ n$, therefore $\displaystyle\lim_{x \to x_0} f_N(x) = a_N$.
+        So \[\forall \ \e > 0 \ \exists \ \delta > 0 \st \forall \ x \in [a, b], \ |x - x_0| < \delta \implies |f_N(x) - a_N| < \frac{\e}{3} \tag{iii}\]
+
+        Hence, for $|x - x_0| < \delta$, we have
+        \[ |f(x) - A| \le |f(x) - f_N(x)| + |f_N(x) - a_N| + |a_N - A| \]
+        \[ < \frac{\e}{3} + \frac{\e}{3} + \frac{\e}{3} \quad [\text{From } (i), (ii) \text{ \& } (iii)] \]
+        \[ |f(x) - A| < \e. \]
+
+        \[ \therefore \lim_{x \to x_0} f(x) = A. \]
+        \[ \therefore \lim_{x \to x_0} f(x) = \lim_{n \to \infty} a_n \]
+        More Importantly,
+        \[
+        \lim_{x \to x_0} \left(\lim_{n \to \infty} f_n(x)\right) = \lim_{n \to \infty} \left(\lim_{x \to x_0} f_n(x)\right)
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    If a series $\displaystyle\sum_{n=1}^{\infty} f_n$ converges uniformly to $f$ in $[a, b]$, and $x_0 \in [a, b]$ such that 
+    \[ \lim_{x \to x_0} f_n(x) = a_n, \quad n = 1, 2, 3, \dots \]
+    then \begin{enumerate}
+        \item $\sum a_n$ converges
+        \item $\lim_{x \to x_0} f(x) = \sum a_n$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since $\sum f_n$ converges uniformly on $[a, b]$. Thus by Cauchy criterion, $\forall \ \e > 0 \ \exists \ N \in \mathbb{N}$ such that $\forall \ x \in [a, b]$,
+        \[ |f_{m+1}(x) + f_{m+2}(x) + \dots + f_n(x)| < \frac{\e}{2} \quad \forall \ n > m \ge N. \]
+
+        Keeping $m$ and $n$ fixed and letting $x \to x_0$, we get,
+        \[ |a_{m+1} + a_{m+2} + \dots + a_n| \le \frac{\e}{2} < \e \quad \forall \ n > m \ge N. \]
+
+        $\therefore \sum a_n$ converges. [By Cauchy criterion]
+
+        \item Since, $\sum f_n$ converges uniformly to $f$ on $[a, b]$. So $\forall \ \e > 0 \ \exists \ N_1 \in \mathbb{N}$ such that $\forall \ x \in [a, b]$,
+        \[ \left| \sum_{n=1}^{n} f_n(x) - f(x) \right| < \frac{\e}{3} \quad \forall \ n \ge N_1 \tag{i} \]
+
+        Since, we know $\sum a_n$ converges, let it converge to some $A$.
+        So, similarly $\exists \ N_2 \in \mathbb{N}$ such that $\forall \ x \in [a, b]$,
+        \[ \left| \sum_{n=1}^{n} a_n - A \right| < \frac{\e}{3} \quad \forall \ n \ge N_2 \tag{ii} \]
+        Let, $N = \max(N_1, N_2)$.
+
+        Again since, $\displaystyle\lim_{x \to x_0} f_n(x) = a_n, n = 1, 2, 3, \dots, N$.
+        Thus, for the above $\e > 0 \ \exists \ \delta > 0$ such that for $n = 1, 2, 3, \dots, N$, we have (taking $\delta = \min \{ \delta_1, \delta_2, \dots, \delta_N \}$) such that $\forall \ x$, if $|x - x_0| < \delta$
+        \[ |f_n(x) - a_n| < \frac{\e}{3N} \]
+
+        \[ \therefore \left| \sum_{n=1}^{N} f_n(x) - \sum_{n=1}^{N} a_n \right| \le \sum_{n=1}^{N} |f_n(x) - a_n| < N \cdot \frac{\e}{3N} = \frac{\e}{3} \tag{iii} \]
+
+        Hence for $|x - x_0| < \delta$, we have
+        \[ |f(x) - A| \le \left| f(x) - \sum_{n=1}^{N} f_n(x) \right| + \left| \sum_{n=1}^{N} f_n(x) - \sum_{n=1}^{N} a_n \right| + \left| \sum_{n=1}^{N} a_n - A \right| \]
+        \[ < \frac{\e}{3} + \frac{\e}{3} + \frac{\e}{3} \quad [\text{From } (i), (ii) \text{ \& } (iii)] \]
+        \[ |f(x) - A| < \e. \]
+        \[ \therefore \lim_{x \to x_0} f(x) = A. \]
+        More Importantly,
+        \[
+        \lim_{x \to x_0} \left(\sum_{n=1}^{\infty} f_n(x)\right) = \sum_{n=1}^{\infty} \left(\lim_{x \to x_0} f_n(x)\right)
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \hfill
+    \begin{enumerate}
+        \item If $\{f_n\}$ is a sequence of continuous functions on an interval $[a, b]$, and if $f_n \to f$ uniformly on $[a, b]$, then $f$ is continuous on $[a, b]$.
+        
+        \item If a series $\sum f_n$ converges uniformly to $f$ in an interval $[a, b]$ and its terms $f_n$ are continuous at a point $x_0$ of the interval, then the sum function $f$ is also continuous at $x_0$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $x_0$ be an arbitrary point in $[a, b]$. To prove that $f$ is continuous at $x_0$, we must show that for $\e > 0$, there exists $\delta > 0$ such that $|f(x) - f(x_0)| < \e$ whenever $|x - x_0| < \delta$.
+
+        Since $f_n \to f$ uniformly on $[a, b]$, for a given $\e > 0$, we can choose $N \in \mathbb{N}$ such that 
+        \begin{equation}
+            |f_n(x) - f(x)| < \frac{\e}{3}, \quad \forall \ x \in [a, b] \text{ and } \forall \ n \ge N
+        \end{equation}
+        In particular, at $x = x_0$:
+        \begin{equation}
+            |f_n(x_0) - f(x_0)| < \frac{\e}{3} \quad \forall \ n \ge N
+        \end{equation}
+        Since $f_n$ is continuous at $x_0$, there exists $\delta > 0$ such that
+        \begin{equation}
+            |f_n(x) - f_n(x_0)| < \frac{\e}{3} \quad \text{whenever } |x - x_0| < \delta \text{ and } n \ge N
+        \end{equation}
+        Hence for $|x - x_0| < \delta$, we have:
+        \begin{align*}
+            |f(x) - f(x_0)| &= |f(x) - f_n(x) + f_n(x) - f_n(x_0) + f_n(x_0) - f(x_0)| \\
+            &\le |f(x) - f_n(x)| + |f_n(x) - f_n(x_0)| + |f_n(x_0) - f(x_0)| \\
+            &< \frac{\e}{3} + \frac{\e}{3} + \frac{\e}{3} = \e
+        \end{align*}
+        $\implies f(x) \to f(x_0)$ when $x \to x_0$. Thus, $f$ is continuous at $x_0$.
+
+        \item Since $\sum f_n$ converges uniformly to $f$ on $[a, b]$, for $\e > 0$, we can choose $N$ such that for all $x \in [a, b]$:
+        \begin{equation}
+            \left| \sum_{r=1}^n f_r(x) - f(x) \right| < \frac{\e}{3}, \quad \forall \ n \ge N \tag{1}
+        \end{equation}
+        and in particular, at a point $x_0$ in $[a, b]$, and $n=N$:
+        \begin{equation}
+            \left| \sum_{r=1}^N f_r(x_0) - f(x_0) \right| < \frac{\e}{3} \tag{2}
+        \end{equation}
+        Again, since each $f_n$ is continuous at $x_0$, the sum of a finite number of functions, $\displaystyle\sum_{r=1}^N f_r$, is also continuous at $x = x_0$. 
+        Therefore for $\e > 0$, $\exists \, \delta > 0$, such that
+        \begin{equation}
+            \left| \sum_{r=1}^N f_r(x) - \sum_{r=1}^N f_r(x_0) \right| < \frac{\e}{3}, \quad \text{for } |x - x_0| < \delta \tag{3}
+        \end{equation}
+        Hence for $|x - x_0| < \delta$, we have
+        \begin{align*}
+            |f(x) - f(x_0)| &\le \left| f(x) - \sum_{r=1}^N f_r(x) \right| + \left| \sum_{r=1}^N f_r(x) - \sum_{r=1}^N f_r(x_0) \right| + \left| \sum_{r=1}^N f_r(x_0) - f(x_0) \right| \\
+            &< \frac{\e}{3} + \frac{\e}{3} + \frac{\e}{3} = \e \quad \text{[using (1), (2) \& (3)]}
+        \end{align*}
+        $\implies f(x) \to f(x_0)$ when $x \to x_0$.
+        i.e., the sum function $f$ is continuous at $x = x_0$.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \hfill
+    \begin{enumerate}
+        \item If a sequence $\{f_n\}$ of integrable functions on $[a, b]$ converges uniformly to a function $f$ on $[a, b]$, then $f$ is integrable on $[a, b]$ and the sequence $\left\{\displaystyle\int_a^x f_n(t) \, dt\right\}$ converges uniformly to $\displaystyle\int_a^x f(t) \, dt$ on $[a, b]$, i.e., \[ \lim_{n \to \infty} \int_a^x f_n(t) \, dt = \int_a^x f(t) \, dt, \quad \forall \ x \in [a, b]. \]
+        
+        \item If a series $\sum f_n$ converges uniformly to $f$ on $[a, b]$, and each term $f_n(x)$ is integrable, then $f$ is integrable and 
+        \[ \int_a^x f(t) \, dt = \sum_{n=1}^{\infty} \int_a^x f_n(t) \, dt, \quad \forall \ x \in [a, b]. \]
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\e > 0$ be any number. \\
+        By the uniform convergence of the sequence, there exists an integer $N$ such that for all $x \in [a, b]$
+        \begin{equation}
+        |f_n(x) - f(x)| < \frac{\e}{3(b - a)}, \quad \forall \ n \ge N \tag{2}
+        \end{equation}
+
+        In particular,
+        \begin{equation}
+        |f_N(x) - f(x)| < \frac{\e}{3(b - a)} \tag{3}
+        \end{equation}
+
+        For this fixed $N$, since $f_N$ is integrable, we choose a partition $P$ of $[a, b]$, such that
+        \begin{equation}
+        U(f_N, P) - L(f_N, P) < \e/3 \tag{4}
+        \end{equation}
+
+        From equation (3),
+        \[ f(x) < f_N(x) + \e/3(b - a) \]
+        \begin{equation}
+        \implies U(f, P) < U(f_N, P) + \e/3 \tag{5}
+        \end{equation}
+
+        Again from equation (3),
+        \[ f(x) > f_N(x) - \e/3(b - a) \]
+        \begin{equation}
+        \implies L(f, P) > L(f_N, P) - \e/3 \tag{6}
+        \end{equation}
+
+        From equations (4), (5) and (6), we get
+        \begin{align*}
+        U(f, P) - L(f, P) &< U(f_N, P) - L(f_N, P) + 2\e/3 \\
+        &< \e/3 + 2\e/3 = \e
+        \end{align*}
+
+        $\implies f$ is integrable on $[a, b]$. \\
+        We now proceed to prove relation (1). \\
+        Since the sequence $\{f_n\}$ converges uniformly to $f$, therefore for $\e > 0$, there exists an integer $N$ such that for all $x \in [a, b]$,
+        \[ |f_n(x) - f(x)| < \e/(b - a), \quad \forall \ n \ge N \]
+
+        Then for all $x \in [a, b]$ and for $n \ge N$, we have
+        \begin{align*}
+        \left| \int_a^x f \, dt - \int_a^x f_n \, dt \right| &= \left| \int_a^x (f - f_n) \, dt \right| \le \int_a^x |f - f_n| \, dt \\
+        &< \frac{\e}{b - a} (x - a) \le \e
+        \end{align*}
+
+        $\implies \left\{ \displaystyle\int_a^x f_n \, dt \right\}$ converges uniformly to $\displaystyle\int_a^x f \, dt$ over $[a, b]$, i.e.,
+        \[ \int_a^x f \, dt = \lim_{n \to \infty} \int_a^x f_n \, dt, \quad \forall \ x \in [a, b] \]
+        More Importantly,
+        \[
+        \int_a^x \left(\lim_{n \to \infty} f_n (t)\right) \, dt = \lim_{n \to \infty} \left(\int_a^x f_n(t) \, dt\right) , \quad \forall \ x \in [a, b]
+        \]
+
+        \item Let $S_n(x)$ be the $n$-th partial sum of the series, defined as:
+        \[ S_n(x) = f_1(x) + f_2(x) + \dots + f_n(x) \]
+
+        Since each $f_i$ is integrable on $[a, b]$, their finite sum $S_n(x)$ is also integrable for every $n \in \mathbb{N}$.
+
+        By the definition of a uniformly convergent series, the sequence of partial sums $\{S_n\}$ converges uniformly to the sum function $f$ on $[a, b]$.
+
+        From the above result (the sequence version of this proof), since $\{S_n\}$ is a sequence of integrable functions converging uniformly to $f$:
+        \begin{enumerate}
+            \item $f$ is integrable on $[a, b]$.
+            \item The integral of the limit is the limit of the integrals:
+            \[ \int_a^x f(t) \, dt = \lim_{n \to \infty} \int_a^x S_n(t) \, dt \tag{i} \]
+        \end{enumerate}
+
+        Now, looking at the right-hand side of $(i)$:
+        \[ \int_a^x S_n(t) \, dt = \int_a^x \left[ \sum_{i=1}^n f_i(t) \right] dt \]
+
+        By the property of linearity for finite integrals:
+        \[ \int_a^x S_n(t) \, dt = \sum_{i=1}^n \int_a^x f_i(t) \, dt \]
+
+        Substituting this back into equation $(i)$:
+        \[ \int_a^x f(t) \, dt = \lim_{n \to \infty} \sum_{i=1}^n \int_a^x f_i(t) \, dt \]
+
+        By the definition of an infinite series:
+        \[ \int_a^x f(t) \, dt = \sum_{n=1}^{\infty} \int_a^x f_n(t) \, dt \]
+        More Importantly,
+        \[
+        \int_a^x \left(\sum_{n=1}^{\infty} f_n(t)\right) \, dt = \sum_{n=1}^{\infty} \left( \int_a^x f_n(t) \, dt \right), \quad \forall \ x \in [a, b]
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    \hfill
+    \begin{enumerate}
+        \item Let $\{f_n\}$ be a sequence of differentiable functions on $[a, b]$ such that it converges at least at one point $x_0 \in [a, b]$. If the sequence of differentials $\{f'_n\}$ converges uniformly to $G$ on $[a, b]$, then the given sequence $\{f_n\}$ converges uniformly on $[a, b]$ to $f$ and $f'(x) = G(x)$.
+        \item Let $\sum f_n$ be a series of differentiable functions on $[a, b]$ such that it converges at least at one point $x_0 \in [a, b]$. If the series of differentials $\sum f'_n$ converges uniformly to $G$ on $[a, b]$, then the given series $\sum f_n$ converges uniformly on $[a, b]$ to $f$ and $f'(x) = G(x)$, i.e.,
+        \[ \frac{d}{dx} \left[ \sum_{n=1}^{\infty} f_n(x) \right] = \sum_{n=1}^{\infty} \frac{d}{dx} f_n(x) \]
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $\e > 0$ be any number.
+        By the convergence of $\{f_n(x_0)\}$ and uniform convergence of $\{f'_n\}$, for $\e > 0$, we can choose a positive integer $N$ such that for all $x \in [a, b]$,
+        \begin{align}
+        |f_{n}(x_0) - f_m(x_0)| &< \e/2, \quad \forall \ n > m \ge N \tag{1} \\
+        |f'_{n}(x) - f'_m(x)| &< \e/2(b - a), \quad \forall \ n > m \ge N \tag{2}
+        \end{align}
+
+
+        Applying Lagrange's mean value theorem to the function $(f_{n} - f_m)$ for any two points $x$ and $t$ of $[a, b]$, we get for $x < \xi < t$, for all $n > m \ge N$:
+        \begin{align}
+        |(f_{n}(x) - f_m(x)) - (f_{n}(t) - f_m(t))| &= |x - t| |f'_{n}(\xi) - f'_m(\xi)| \nonumber \\
+        &< \frac{|x - t| \e}{2(b - a)} \tag{3} \\
+        &< \e/2 \tag{3A}
+        \end{align}
+
+
+        and
+        \begin{align*}
+        |f_{n}(x) - f_m(x)| &\le |f_{n}(x) - f_m(x) - f_{n}(x_0) + f_m(x_0)| + |f_{n}(x_0) - f_m(x_0)| \\
+        &< \frac{\e}{2} + \frac{\e}{2} = \e \quad \text{[using (1) \& (3A)]}
+        \end{align*}
+
+
+        $\implies$ The sequence $\{f_n\}$ uniformly converges on $[a, b]$.
+        Let it converge to $f$, say.
+        For a fixed $x$ on $[a, b]$ and for $t \in [a, b], t \ne x$, let us define
+        \begin{align}
+        \phi_n(t) &= \frac{f_n(t) - f_n(x)}{t - x}, n = 1, 2, 3, \dots \tag{4} \\
+        \phi(t) &= \frac{f(t) - f(x)}{t - x} \tag{5}
+        \end{align}
+
+
+        Since each $f_n$ is differentiable, therefore for each $n$:
+        \begin{equation}
+        \lim_{t \to x} \phi_n(t) = f'_n(x) \tag{6}
+        \end{equation}
+
+
+        $\therefore |\phi_{n}(t) - \phi_n(t)| = \frac{1}{|t - x|} |f_{n}(t) - f_n(t) - f_{n}(x) + f_n(x)|$
+        \begin{align*}
+        &= \frac{1}{|t - x|} |\{f_{n}(t) - f_{n}(x)\} - \{f_n(t) - f_n(x)\}| \\
+        &< \frac{\e}{2(b - a)}, \quad \forall n \ge N \quad \text{[using (3)]}
+        \end{align*}
+
+
+        so that $\{\phi_n(t)\}$ converges uniformly on $[a, b]$, for $t \ne x$.
+        Since $\{f_n\}$ also converges uniformly on $f$, therefore from (4):
+        \begin{equation*}
+        \lim_{n \to \infty} \phi_n(t) = \lim_{n \to \infty} \frac{f_n(t) - f_n(x)}{t - x} = \frac{f(t) - f(x)}{t - x} = \phi(t)
+        \end{equation*}
+
+
+        Thus $\{\phi_n(t)\}$ converges uniformly to $\phi(t)$ on $[a, b]$, for $t \in [a, b], t \ne x$.
+        Applying the property of interchanging limits to the uniformly convergent sequence $\{\phi_n(t)\}$ and using (6), we get
+        \begin{equation*}
+        \lim_{t \to x} \phi(t) = \lim_{t \to x} \lim_{n \to \infty} \phi_n(t) = \lim_{n \to \infty} \lim_{t \to x} \phi_n(t) = \lim_{n \to \infty} f'_n(x) = G(x)
+        \end{equation*}
+
+
+        $\displaystyle \implies \lim_{t \to x} \phi(t)$ exists, and therefore (5) implies that $f$ is differentiable and
+        \begin{equation*}
+        \lim_{t \to x} \phi(t) = f'(x)
+        \end{equation*}
+
+
+        Hence,
+        \begin{equation*}
+        f'(x) = G(x) = \lim_{n \to \infty} f'_n(x)
+        \end{equation*}
+        More Importantly,
+        \[
+        \frac{d}{dx} \left(\lim_{n \to \infty} f_n(x)\right) = \lim_{n \to \infty} \left(\frac{d}{dx} f_n(x)\right)
+        \]
+
+        \item Let $S_n(x)$ be the $n$-th partial sum of the series of functions:
+        \[ S_n(x) = f_1(x) + f_2(x) + \dots + f_n(x) \]
+
+        Since each $f_i$ is differentiable on $[a, b]$, the finite sum $S_n(x)$ is also differentiable for every $n \in \mathbb{N}$, and its derivative is:
+        \[ S'_n(x) = f'_1(x) + f'_2(x) + \dots + f'_n(x) \]
+
+        Now we apply the conditions from the sequence version from the above result to the sequence of partial sums $\{S_n\}$:
+        \begin{enumerate}
+            \item $\{S_n(x_0)\}$ converges (given that the series converges at $x_0$).
+            \item The sequence of derivatives $\{S'_n\}$ converges uniformly to $G$ on $[a, b]$ (given that the series of derivatives converges uniformly).
+        \end{enumerate}
+
+        By using the above result, we conclude that:
+        \begin{enumerate}
+            \item The sequence $\{S_n\}$ converges uniformly to a limit function $f$. Thus, the series $\sum f_n$ converges uniformly to $f$.
+            \item The limit function $f$ is differentiable and $f'(x) = \lim_{n \to \infty} S'_n(x)$.
+        \end{enumerate}
+
+        Therefore:
+        \[ f'(x) = \lim_{n \to \infty} \left[ \sum_{i=1}^n f'_i(x) \right] \]
+        \[ f'(x) = \sum_{n=1}^{\infty} f'_n(x) \]
+
+        Substituting $f(x) = \sum_{n=1}^{\infty} f_n(x)$, we get:
+        \[ \frac{d}{dx} \left[ \sum_{n=1}^{\infty} f_n(x) \right] = \sum_{n=1}^{\infty} \frac{d}{dx} f_n(x) \]
+    \end{enumerate}
+\end{proof}
+
+\section{Conclusion}
+In this chapter, we have explored the concept of uniform convergence and its properties. We have seen that uniform convergence is a stronger form of convergence than pointwise convergence, and it allows us to interchange limits with various operations such as integration and differentiation. The theorems presented in this chapter provide a solid foundation for understanding how uniform convergence behaves in different contexts, and they are essential tools for analyzing sequences and series of functions in mathematical analysis.
+
+\begin{thebibliography}{9}
+    \bibitem{MalikArora}
+    S.C. Malik and Savita Arora, \textit{Mathematical Analysis}, 5th ed. New Delhi: New Age International Private Limited, 2017.
+\end{thebibliography}
+\end{document}
