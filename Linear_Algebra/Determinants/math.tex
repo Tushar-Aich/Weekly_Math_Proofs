@@ -1,0 +1,580 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}
+
+\geometry{a4paper, left=0.5in, top=0.5in, right=0.5in, bottom=0.7in}
+\onehalfspacing
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{\textbf{Remark}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\st}{\text{ such that }}
+\newcommand{\B}{\mathscr{B}}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\rank}{rank}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\title{\textbf{\Large  On the Theory and Algebraic Properties of Determinants \\ \large An Axiomatic and Inductive Development of Row Operations and n-Linearity }}
+\author{\textbf{Tushar Kumar Aich}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    This paper presents a self-contained, rigorous exposition of the determinant function defined on the space of square matrices $M_{n\times n}(F)$ over a field F. Beginning with the recursive definition via cofactor expansion along the first row, we prove the fundamental multilinear and alternating properties of determinants under elementary row operations. We analyze the behavior of determinants under matrix multiplication, and demonstrate that $\det(A^T) = \det(A)$, thereby extending all row-operation properties to column operations.
+    \end{abstract}
+
+    \section{Introduction}
+    The determinant, which has played a prominent role in the theory of linear algebra, is a special scalar-valued function defined on the set of square matrices. Although the determinant is not a linear transformation on $M_{n \times n}(F) \ \text{for} \ n > 1$, it does possess a kind of linearity (called n-linearity) as well as other properties that are examined in this paper.
+
+    \section{Determinants of order $n$}
+    Given $A \in M_{n \times n}(F)$, for $n \ge 2$, denote the $(n-1) \times (n-1)$ matrix obtained from $A$ by deleting row $i$ and column $j$ by $\widetilde{A}_{ij}$.
+
+    \paragraph{Example:}
+    \[
+    A = \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+    \end{bmatrix}, \quad
+    \widetilde{A}_{11} = \begin{bmatrix}
+    5 & 6 \\
+    8 & 9
+    \end{bmatrix}, \quad
+    \widetilde{A}_{23} = \begin{bmatrix}
+    1 & 2 \\
+    7 & 8
+    \end{bmatrix}
+    \]
+
+    \begin{definition}
+    Let $A \in M_{n \times n}(F)$. If $n = 1$ then, $A = [A_{11}]$ and $\det(A) = A_{11}$.
+
+    For $n \ge 2$, we define $\det(A)$ recursively as
+    \[
+    \det(A) = \sum_{j=1}^{n} (-1)^{1+j} A_{1j} \cdot \det(\widetilde{A}_{1j}).
+    \]
+    The scalar $\det(A)$ is called the \textbf{determinant} of $A$ and is also denoted by $|A|$.
+    \end{definition}
+
+    \begin{definition}
+    The scalar
+    \[
+    (-1)^{i+j} \det(\widetilde{A}_{ij})
+    \]
+    is called the \textbf{cofactor} of the entry of $A$ in row $i$ and column $j$.
+
+    Let us denote the cofactor of row $i$, column $j$ entry of $A$ then
+    \[
+    c_{ij} = (-1)^{i+j} \det(\widetilde{A}_{ij})
+    \]
+    and
+    \[
+    \det(A) = A_{11}c_{11} + A_{12}c_{12} + \dots + A_{1n}c_{1n}
+    \]
+    \end{definition}
+
+    \begin{theorem}
+    The determinant of an $n \times n$ matrix is a linear function of each row when the remaining rows are held fixed. That is, for $1 \le r \le n$, we have
+    \[
+    \det \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_{r-1} \\
+    u + kv \\
+    a_{r+1} \\
+    \vdots \\
+    a_n
+    \end{pmatrix} 
+    = 
+    \det \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_{r-1} \\
+    u \\
+    a_{r+1} \\
+    \vdots \\
+    a_n
+    \end{pmatrix}
+    + k \cdot \det \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_{r-1} \\
+    v \\
+    a_{r+1} \\
+    \vdots \\
+    a_n
+    \end{pmatrix}
+    \]
+    whenever $k$ is a scalar and $u, v$ and each $a_i$ are row vectors in $F^n$.
+    \end{theorem}
+
+    \begin{proof}
+    The proof is by mathematical induction on $n$. The result is immediate for $n=1$. Now let us make an induction hypothesis that for some integer $n \ge 2$, the theorem holds true for $(n-1) \times (n-1)$ matrix. Let $A$ be an $n \times n$ matrix with $a_1, a_2, \dots, a_n$ rows and suppose for some $r$ ($1 \le r \le n$) we have $a_r = u + kv$ for some $u, v \in F^n$ and some scalar $k$. Let $u = (b_1, b_2, \dots, b_n)$ and $v = (c_1, c_2, \dots, c_n)$ and let $B$ and $C$ be the matrices obtained from $A$ by replacing row $r$ of $A$ by $u$ and $v$ respectively. Now we need to prove
+    \[
+    \det(A) = \det(B) + k \det(C).
+    \]
+
+    For $r = 1$, since we change only the first row of $A, B$ and $C$, then
+    \[
+    \widetilde{A}_{1j} = \widetilde{B}_{1j} = \widetilde{C}_{1j}
+    \]
+    Now,
+    \begin{align*}
+    \det(A) &= \sum_{j=1}^{n} (-1)^{1+j} A_{1j} \det(\widetilde{A}_{1j}) \\
+    &= \sum_{j=1}^{n} (-1)^{1+j} (b_j + k c_j) \det(\widetilde{A}_{1j}) \\
+    &= \sum_{j=1}^{n} \left[ (-1)^{1+j} b_j \det(\widetilde{A}_{1j}) + k \cdot (-1)^{1+j} c_j \det(\widetilde{A}_{1j}) \right] \\
+    &= \sum_{j=1}^{n} \left[ (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) + k (-1)^{1+j} C_{1j} \det(\widetilde{C}_{1j}) \right] \\
+    &= \det(B) + k \det(C).
+    \end{align*}
+
+    Now for $r > 1$ and $1 \le j \le n$, the rows of $\widetilde{A}_{1j}, \widetilde{B}_{1j}$ and $\widetilde{C}_{1j}$ are same except for row $r-1$. Also row $r-1$ of $\widetilde{A}_{1j}$ is
+    \[
+    (b_1 + k c_1, \dots, b_{j-1} + k c_{j-1}, b_{j+1} + k c_{j+1}, \dots, b_n + k c_n),
+    \]
+    which is the sum of row $r-1$ of $\widetilde{B}_{1j}$ and $k$ times row $r-1$ of $\widetilde{C}_{1j}$.
+
+    Since $\widetilde{B}_{1j}$ and $\widetilde{C}_{1j}$ are $(n-1) \times (n-1)$ matrices, then from our induction hypothesis, we have
+    \[
+    \det(\widetilde{A}_{1j}) = \det(\widetilde{B}_{1j}) + k \det(\widetilde{C}_{1j}).
+    \]
+    Also since $A_{1j} = B_{1j} = C_{1j}$, then
+    \begin{align*}
+    \det(A) &= \sum_{j=1}^{n} (-1)^{1+j} A_{1j} \det(\widetilde{A}_{1j}) \\
+    &= \sum_{j=1}^{n} (-1)^{1+j} A_{1j} \left[ \det(\widetilde{B}_{1j}) + k \det(\widetilde{C}_{1j}) \right] \\
+    &= \sum_{j=1}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) + k \sum_{j=1}^{n} (-1)^{1+j} C_{1j} \det(\widetilde{C}_{1j}) \\
+    &= \det(B) + k \det(C).
+    \end{align*}
+
+    Thus the theorem is established for $n \times n$ matrices.
+    \end{proof}
+
+    \begin{corollary}
+    If $A \in M_{n \times n}(F)$ has a row consisting entirely of zeroes, then $\det(A) = 0$.
+    \end{corollary}
+
+    \begin{proof}
+    Let $A \in M_{n \times n}(F)$ be a matrix where the $r$-th row consists entirely of zeroes, such that $a_r = 0$. Thus we can write
+    \[
+    a_r = 0 \cdot 0.
+    \]
+    Thus,
+    \[
+    \det(A) = \det \begin{pmatrix}
+    a_1 \\
+    \vdots \\
+    a_{r-1} \\
+    0 \cdot 0 \\
+    a_{r+1} \\
+    \vdots \\
+    a_n
+    \end{pmatrix}
+    \]
+    By Theorem 2.1,
+    \[
+    \det(A) = 0 \cdot \det(A) = 0.
+    \]
+    \end{proof}
+
+    \begin{lemma}
+    Let $B \in M_{n \times n}(F)$ where $n \ge 2$. If row $i$ of $B$ equals $e_k$ for some $k$ ($1 \le k \le n$), then $\det(B) = (-1)^{i+k} \det(\widetilde{B}_{ik})$.
+    \end{lemma}
+
+    \begin{proof}
+    The proof is by mathematical induction on $n$. Now let
+    \[
+    B = \begin{bmatrix}
+    1 & 0 \\
+    a_3 & a_4
+    \end{bmatrix}
+    \]
+    Then, $\det(B) = a_4 = (-1)^{1+1} \det(\widetilde{B}_{11})$. Again let
+    \[
+    B = \begin{bmatrix}
+    a_1 & a_2 \\
+    0 & 1
+    \end{bmatrix}
+    \]
+    Then, $\det(B) = a_1 = (-1)^{2+2} \det(\widetilde{B}_{22})$. Similarly we can verify the result for 
+    \[
+    B = \begin{bmatrix}
+    0 & 1 \\
+    a_3 & a_4
+    \end{bmatrix} \quad \text{and} \quad
+    B = \begin{bmatrix}
+    a_1 & a_2 \\
+    1 & 0
+    \end{bmatrix}.
+    \]
+    Thus the theorem is true for $n=2$.
+
+    Now let us take an induction hypothesis that for some integer $n \ge 3$ the theorem is true for $(n-1) \times (n-1)$ matrices and let $B$ be an $n \times n$ matrix in which row $i$ of $B$ equals $e_k$ for some $k$ ($1 \le k \le n$).
+
+    For $i = 1$,
+    \begin{align*}
+    \det(B) &= \sum_{j=1}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= \sum_{j \neq k}{(-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j})} + \sum_{j=k} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j})
+    \end{align*}
+    Here we have taken that the first row of the matrix is $e_k(1\le k \le n)$ and also we are expanding the determinant for the first row. Thus if $j \ne k$ then $B_{1j} = 0$ and hence 
+    \[
+    \det(B) = 0 + (-1)^{1+k}\det(\widetilde{B}_{1k}) = (-1)^{1+k}\det(\widetilde{B}_{1k})
+    \]
+    Thus the theorem holds for $1^{\text{st}}$ row of $B$.
+
+    Suppose that $1 < i \le n$. Then if we remove $1^{\text{st}}$ row and $j$-th column of $B$, then the $i$-th row in $B$ becomes $(i-1)$-th row in $\widetilde{B}_{1j}$. Now let $C_{ij}$ denote the $(n-2) \times (n-2)$ matrix by removing $(i-1)$-th row and $k$-th column of $\widetilde{B}_{1j}$.
+
+    Now if we remove $j$-th column from $B$, then if $j < k$ then the $k$-th column becomes $(k-1)$-th column in $C_{ij}$; and if $j = k$ then the only column containing $1$ in the $i$-th row in $B$ is removed; and if $j > k$ then the $k$-th column remains intact. Thus by induction hypothesis and by Corollary 2.1.1,
+    \[
+    \det(\widetilde{B}_{1j}) = \begin{cases}
+    (-1)^{(i-1)+(k-1)} \det(C_{ij}) & \text{if } j < k \\
+    0 & \text{if } j = k \\
+    (-1)^{(i-1)+k} \det(C_{ij}) & \text{if } j > k
+    \end{cases}
+    \]
+
+    Thus,
+    \begin{align*}
+    \det(B) &= \sum_{j=1}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= \sum_{j < k} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) + \sum_{j > k} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= \sum_{j < k} (-1)^{1+j} B_{1j} \left[ (-1)^{(i-1)+(k-1)} \det(C_{ij}) \right] \\
+    &\quad + \sum_{j > k} (-1)^{1+j} B_{1j} \left[ (-1)^{(i-1)+k} \det(C_{ij}) \right] \\
+    &= \sum_{j < k} (-1)^{1+j} B_{1j} \cdot (-1)^{i+k} (-1)^{-2} \det(C_{ij}) \\
+    &\quad + \sum_{j > k} (-1)^{1+j} \cdot (-1)^{i+k} (-1)^{-1} B_{1j} \det(C_{ij}) \\
+    &= (-1)^{i+k} \left[ \sum_{j < k} (-1)^{1+j} B_{1j} \det(C_{ij}) + \sum_{j > k} (-1)^{1+(j-1)} B_{1j} \det(C_{ij}) \right]
+    \end{align*}
+
+    Because the expression inside the above bracket is the cofactor expansion of $\widetilde{B}_{ik}$ along first row. Thus,
+    \[
+    \det(B) = (-1)^{i+k} \det(\widetilde{B}_{ik}).
+    \]
+
+    Thus the lemma holds true for all $n \times n$ matrices.
+    \end{proof}
+
+    \begin{theorem}
+    The determinant of a square matrix can be evaluated by cofactor expansion along any row. That is, if $A \in M_{n \times n}(F)$, then for any integer $i$ ($1 \le i \le n$),
+    \[
+    \det(A) = \sum_{j=1}^{n} (-1)^{i+j} A_{ij} \det(\widetilde{A}_{ij})
+    \]
+    \end{theorem}
+
+    \begin{proof}
+    Cofactor expansion along first row of $A$ gives the determinant of $A$ by definition. So the result is true for $i = 1$. Fix $i > 1$. Row $i$ of $A$ can be written as $\sum_{j=1}^{n} A_{ij} e_j$. For $1 \le j \le n$, let $B_j$ denote the matrix obtained from $A$ by replacing row $i$ of $A$ by $e_j$. Thus by Lemma 2.1,
+    \[
+    \det(B_j) = (-1)^{i+j} \det(\widetilde{B}_{ij}).
+    \]
+    Since $B_j$ is obtained from $A$ by replacing row $i$ of $A$ with $e_j$, thus
+    \[
+    \widetilde{A}_{ij} = \widetilde{B}_{ij}.
+    \]
+    Therefore,
+    \[
+    \det(B_j) = (-1)^{i+j} \det(\widetilde{A}_{ij}).
+    \]
+    Now,
+    \[
+    \det(A) = \det \begin{pmatrix}
+    R_1 \\
+    R_2 \\
+    \vdots \\
+    R_{i-1} \\
+    \sum_{j=1}^{n} A_{ij} e_j \\
+    R_{i+1} \\
+    \vdots \\
+    R_n
+    \end{pmatrix}
+    = \det \begin{pmatrix}
+    R_1 \\
+    R_2 \\
+    \vdots \\
+    R_{i-1} \\
+    A_{i1}e_1 + A_{i2}e_2 + \dots + A_{in}e_n \\
+    R_{i+1} \\
+    \vdots \\
+    R_n
+    \end{pmatrix}
+    \]
+
+    By Theorem 2.1,
+    \begin{align*}
+    \det(A) &= A_{i1} \det \begin{pmatrix}
+    R_1 \\
+    \vdots \\
+    e_1 \\
+    \vdots \\
+    R_n
+    \end{pmatrix}
+    + A_{i2} \det \begin{pmatrix}
+    R_1 \\
+    \vdots \\
+    e_2 \\
+    \vdots \\
+    R_n
+    \end{pmatrix}
+    + \dots + A_{in} \det \begin{pmatrix}
+    R_1 \\
+    \vdots \\
+    e_n \\
+    \vdots \\
+    R_n
+    \end{pmatrix} \\
+    &= \sum_{j=1}^{n} A_{ij} \det(B_j) \\
+    &= \sum_{j=1}^{n} (-1)^{i+j} A_{ij} \det(\widetilde{A}_{ij}).
+    \end{align*}
+    \end{proof}
+
+    \begin{remark}
+        The proof of this theorem tells us that not just the first row but we can find the value of the determinant by expanding any row in of the matrix.
+        \end{remark}
+
+        \begin{corollary}
+        If $A \in M_{n \times n}(F)$ has two identical rows, then $\det(A) = 0$.
+        \end{corollary}
+
+        \begin{proof}
+        The proof is by mathematical induction on $n$. Let $A \in M_{2 \times 2}(F)$ such that the rows of $A$ are identical. Let us say,
+        \[
+        A = \begin{bmatrix}
+        a_1 & a_2 \\
+        a_1 & a_2
+        \end{bmatrix}
+        \]
+        Then
+        \[
+        \det(A) = a_1 a_2 - a_1 a_2 = 0.
+        \]
+        Thus the statement holds true for $n=2$. Assume for some integer $n \ge 3$, the statement is true for $(n-1) \times (n-1)$ matrices, and let row $r$ and $s$ of $A \in M_{n \times n}(F)$ be identical for $r \neq s$. Because $n \ge 3$, we can choose some integer $i$ ($1 \le i \le n$) other than $r$ and $s$. Now by Theorem 2.2,
+        \[
+        \det(A) = \sum_{j=1}^{n} (-1)^{i+j} A_{ij} \det(\widetilde{A}_{ij}).
+        \]
+        Since $\widetilde{A}_{ij}$ is an $(n-1) \times (n-1)$ matrix with two identical rows, by our induction hypothesis we can say that each $\det(\widetilde{A}_{ij}) = 0$ and hence $\det(A) = 0$. Thus the statement holds true for every $n \times n$ matrix or every square matrix.
+        \end{proof}
+
+        \begin{theorem}
+        If $A \in M_{n \times n}(F)$ and $B$ is a matrix obtained from $A$ by interchanging any two rows of $A$, then $\det(B) = -\det(A)$.
+        \end{theorem}
+
+        \begin{proof}
+        Let the rows of $A \in M_{n \times n}(F)$ be $a_1, a_2, \dots, a_n$, and let $B$ be the matrix obtained from $A$ by interchanging rows $r$ and $s$, where $r < s$. Thus
+        \[
+        A = \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_n
+        \end{pmatrix}
+        \quad \text{and} \quad
+        B = \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_n
+        \end{pmatrix}
+        \]
+        Consider the matrix obtained from $A$ by replacing rows $r$ and $s$ by row $a_r + a_s$. By Corollary 2.2.1 and Theorem 2.1, we get,
+        \[
+        \det \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_r + a_s \\
+        \vdots \\
+        a_r + a_s \\
+        \vdots \\
+        a_n
+        \end{pmatrix} = 0.
+        \]
+        \[
+        \Rightarrow \det \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_n
+        \end{pmatrix}
+        + \det \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_n
+        \end{pmatrix}
+        + \det \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_r \\
+        \vdots \\
+        a_n
+        \end{pmatrix}
+        + \det \begin{pmatrix}
+        a_1 \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_s \\
+        \vdots \\
+        a_n
+        \end{pmatrix} = 0
+        \]
+        \[
+        \Rightarrow 0 + \det(A) + \det(B) + 0 = 0
+        \]
+        \[
+        \Rightarrow \det(A) = -\det(B).
+        \]
+        \end{proof}
+
+        \begin{theorem}
+        Let $A \in M_{n \times n}(F)$, and let $B$ be a matrix obtained by adding a multiple of one row of $A$ to another row of $A$. Then $\det(B) = \det(A)$.
+        \end{theorem}
+
+        \begin{proof}
+        Suppose $B$ is the $n \times n$ matrix obtained from $A$ by adding $k$ times row $r$ to row $s$, where $r \neq s$. Let the rows of $A$ be $a_1, a_2, \dots, a_n$ and rows of $B$ be $b_1, b_2, \dots, b_n$. Then $b_i = a_i$ for $i \neq s$ and $b_s = a_s + k a_r$. Let $C$ be the matrix obtained from $A$ by replacing row $s$ with $a_r$. Applying Theorem 2.1 to row $s$ of $B$, we get
+        \[
+        \det(B) = \det(A) + k \det(C) = \det(A)
+        \]
+        because $\det(C) = 0$ by Corollary 2.2.1.
+        \end{proof}
+
+        \begin{corollary}
+        If $A \in M_{n \times n}(F)$ has rank less than $n$, then $\det(A) = 0$.
+        \end{corollary}
+
+        \begin{proof}
+        If the rank of $A$ is less than $n$, then the rows $a_1, a_2, \dots, a_n$ of $A$ are linearly dependent. Thus we can say, some row of $A$, say row $r$, is a linear combination of the other rows. So there exists scalars $c_i$ such that
+        \[
+        a_r = c_1 a_1 + c_2 a_2 + \dots + c_{r-1} a_{r-1} + c_{r+1} a_{r+1} + \dots + c_n a_n.
+        \]
+        Let $B$ be the matrix obtained from $A$ by adding $-c_i$ times row $i$ to row $r$ for every $i \neq r$. Then, row $r$ of $B$ consists entirely of zeroes, and so $\det(B) = 0$. But by Theorem 2.4, $\det(A) = \det(B)$. Hence $\det(A) = 0$.
+        \end{proof}
+
+        \begin{theorem}
+        For any $A \in M_{n \times n}(F)$, $\det(kA) = k^n \det(A)$.
+        \end{theorem}
+
+        \begin{proof}
+        The proof is by mathematical induction on $n$. The result is immediate for $n=1$. Now let us take our mathematical hypothesis that the theorem is true for any $(n-1) \times (n-1)$ matrix. Now let $A$ be an $n \times n$ matrix then,
+        \[
+        \det(kA) = \sum_{j=1}^{n} (-1)^{1+j} k(A)_{1j} \det(\widetilde{kA}_{1j}).
+        \]
+        Now since $\widetilde{A}_{1j}$ is an $(n-1) \times (n-1)$ matrix, then by our hypothesis we can say that $\det(\widetilde{kA}_{1j}) = k^{n-1} \det(\widetilde{A}_{1j})$. Hence,
+        \begin{align*}
+        \det(kA) &= \sum_{j=1}^{n} (-1)^{1+j} k A_{1j} \left[ k^{n-1} \det(\widetilde{A}_{1j}) \right] \\
+        &= k^n \sum_{j=1}^{n} (-1)^{1+j} A_{1j} \det(\widetilde{A}_{1j}) \\
+        &= k^n \det(A).
+        \end{align*}
+
+        Thus the statement holds true for $n \times n$ matrix.
+        \end{proof}
+
+        \begin{theorem}
+        If $E$ is an elementary matrix, then $\det(E^\top) = \det(E)$.
+        \end{theorem}
+
+        \begin{proof}
+        Let $E_1$ be a type 1 elementary matrix formed by interchanging two rows of the identity matrix $I$. Let us take two elements in row $r_1$ and $r_2$ and columns $c_1$ and $c_2$ respectively which are ones, and if they are swapped then,
+        \[
+        E_1 = \begin{bmatrix}
+        1 & 0 & \dots & 0 & \dots & 0 & \dots & 0 \\
+        0 & 1 & \dots & 0 & \dots & 0 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & 0 & \dots & 1 & \dots & 0 \\
+        0 & 0 & \dots & 1 & \dots & 0 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots  \\
+        0 & 0 & \dots & 0 & \dots & 0 & \dots & 1
+        \end{bmatrix}
+        \begin{array}{l}
+        \\
+        \\
+        \\
+        \leftarrow \text{row } r_1 \\
+        \leftarrow \text{row } r_2 \\
+        \\
+        \\
+        \end{array}
+        \]
+
+        Hence, $(E_1)_{ij} = 1$ when $i=j$ except for $i=r_1, j=r_1$ and $i=r_2, j=r_2$, and $(E_1)_{ij} = 1$ when $i=r_1, j=r_2$ and $i=r_2, j=r_1$, and $(E_1)_{ij} = 0$ at all other positions. Now if we take transpose of $E_1$, then we get $(E_1^\top)_{ij} = 1$ when $i=j$ except for $i=r_1, j=r_1$ and $i=r_2, j=r_2$, and $(E_1^\top)_{ij} = 1$ when $i=r_2, j=r_1$ and $i=r_1, j=r_2$, and $(E_1^\top)_{ij} = 0$ at all other positions which is equal to $E_1$. Thus, $E_1^\top = E_1$, and taking determinant both sides,
+        \[
+        \det(E_1^\top) = \det(E_1).
+        \]
+
+        Let $E_2$ be a type 2 elementary matrix formed by multiplying one of the rows of identity matrix $I$ with some scalar $k$. Let some row $r$ of $I$ be multiplied by $k$, then,
+        \[
+        E_2 = \begin{bmatrix}
+        1 & 0 & \dots & 0 & \dots & 0 \\
+        0 & 1 & \dots & 0 & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & k & \dots & 0 \\
+        \vdots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+        0 & 0 & \dots & 0 & \dots & 1
+        \end{bmatrix}
+        \begin{array}{l}
+        \\
+        \\
+        \\
+        \leftarrow \text{row } r \\
+        \\
+        \\
+        \end{array}
+        \]
+        Since all off-diagonal elements are $0$, then $E_2^\top = E_2$. Hence
+        \[
+        \det(E_2^\top) = \det(E_2).
+        \]
+
+        Now let $E_3$ be a type 3 elementary matrix formed by adding a nonzero multiple, say $k$ of row $r_1$ of an identity matrix to row $r_2$ of the same identity matrix. Thus by Theorem 2.4, $\det(E_3)=1$. Now $E_3^\top$ is a matrix where $(E_3^\top)_{ij} = 1$ for $i=j$ and all off diagonal elements are zeroes except $(E_3^\top)_{r_1,r_2} = k$. Now solving for the determinant of $E_3^\top$ for the row $r_1$ using the Theorem 2.2, we get
+        \begin{align*}
+            \det(E_3^\top) &= \sum_{j=1}^n (-1)^{r_1+j}(E_3^\top)_{r_1,j}\det((\widetilde{E}_3^\top)_{r_1,j}) \\
+                &= (-1)^{r_1+r_1}(E_3^\top)_{r_1,r_1}\det((\widetilde{E}_3^\top)_{r_1,r_1}) + (-1)^{r_1+r_2}(E_3^\top)_{r_1,r_2}\det((\widetilde{E}_3^\top)_{r_1,r_2}) \\
+                    &= \det((\widetilde{E}_3^\top)_{r_1,r_1}) + (-1)^{r_1+r_2}.k.\det((\widetilde{E}_3^\top)_{r_1,r_2})
+                    \end{align*}
+                    Now since $(\widetilde{E}_3^\top)_{r_1,r_1}$ is same as an identity matrix, thus $\det((\widetilde{E}_3^\top)_{r_1,r_1})=1$. Also since $(\widetilde{E}_3^\top)_{r_1,r_2}$ is a matrix containing only zeroes at the row $r_2$, thus by Corollary 2.1.1, $\det((\widetilde{E}_3^\top)_{r_1,r_2})=0$. Hence,
+                    \[
+                    \det(E_3^\top) = 1 = \det(E_3)
+                    \]
+                    \end{proof}
+
+                    Following are the facts about determinants:
+                    \begin{enumerate}
+                        \item If $E$ is an elementary matrix obtained by interchanging two rows of $I$, then $\det(E) = -1$.
+                            \item If $E$ is an elementary matrix obtained by multiplying some row of $I$ by the nonzero scalar $k$, then $\det(E) = k$.
+                                \item If $E$ is an elementary matrix obtained by adding a multiple of some row of $I$ to another row, then $\det(E) = 1$.
+                                \end{enumerate}
+
+                                \begin{theorem}
+                                For any $A, B \in M_{n \t
