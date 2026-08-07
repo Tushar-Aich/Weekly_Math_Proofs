@@ -1,0 +1,565 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{cleveref}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}
+
+\geometry{a4paper, left=0.5in, top=0.5in, right=0.5in, bottom=0.7in}
+\onehalfspacing
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{\textbf{Remark}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\st}{\text{ such that }}
+\newcommand{\B}{\mathscr{B}}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\nullity}{nullity}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\title{\textbf{\Large  Linear Operators and Their Characteristic Representations \\ \large Structural Properties of Linear Operators and Matrix Representations }}
+\author{\textbf{Tushar Kumar Aich}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    This expository paper presents a rigorous development of linear operator diagonalizability in finite-dimensional vector spaces. We examine the necessary and sufficient conditions under which an operator admits a diagonal matrix representation relative to an ordered basis. We study the characteristic polynomial, its algebraic properties, and basis-independence across similar matrices. We then study the structure of abstract operators with concrete matrix computations, proving key results regarding eigenvalues, trace and determinant.
+\end{abstract}
+
+\section{Introduction}
+We understand that computations involving diagonal matrices are simple. For a given linear operator $T$ on a finite-dimensional vector space $V$, we seek answers to the following questions:
+\begin{enumerate}
+    \item Does there exist an ordered basis $\B$ for $V$ such that $[T]_\B$ is a diagonal matrix?
+    \item If such a basis exists, how can it be found?
+\end{enumerate}
+
+An answer to question 1 leads us to how operator $T$ acts on $V$, and an answer to question 2 helps us to obtain easy solutions to many problems. 
+\section{Eigenvalues and Eigenvectors}
+\begin{definition}
+A linear operator $T$ on a finite-dimensional vector space $V$ is called \textbf{diagonalizable} if there is an ordered basis $\B$ for $V$ such that $[T]_\B$ is a diagonal matrix. A square matrix $A$ is called diagonalizable if $L_A$ is diagonalizable.
+\end{definition}
+
+Here if $\B = \{v_1, v_2, \dots, v_n\}$ is an ordered basis for $V$ such that $[T]_\B$ is a diagonal matrix. Then if $D = [T]_\B$ is a diagonal matrix, then for each vector $v_j \in \B$,
+\[
+T(v_j) = \sum_{i=1}^{n} D_{ij} v_i = D_{jj} v_j = \lambda_j v_j
+\]
+where $\lambda_j = D_{jj}$.
+
+Conversely, if $\B = \{v_1, v_2, \dots, v_n\}$ is an ordered basis for $V$ such that $T(v_j) = \lambda_j v_j$ for some scalars $\lambda_1, \lambda_2, \dots, \lambda_n$, then
+\[
+[T]_\B = \begin{pmatrix}
+\lambda_1 & 0 & \cdots & 0 \\
+0 & \lambda_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \lambda_n
+\end{pmatrix}
+\]
+
+\begin{definition}
+Let $T$ be a linear operator on a vector space $V$. A non-zero vector $v \in V$ is called an \textbf{eigenvector} of $T$ if there exists a scalar $\lambda$ such that $T(v) = \lambda v$. The scalar $\lambda$ is called the \textbf{eigenvalue} of $T$ corresponding to the eigenvector $v$.
+\end{definition}
+
+Let $A \in M_{n \times n}(F)$. A non-zero vector $v \in F^n$ is called an eigenvector of $A$ if $v$ is an eigenvector of $L_A$; that is, if $A v = \lambda v$ for some scalar $\lambda$. The scalar $\lambda$ is called the eigenvalue of $A$ corresponding to the eigenvector $v$.
+
+\begin{remark}
+Eigenvectors are also called characteristic vectors and proper vectors, and eigenvalues are also called characteristic values and proper values.
+\end{remark}
+
+Thus, a vector is an eigenvector of $A$ if and only if it is an eigenvector of $L_A$. Similarly, a scalar $\lambda$ is an eigenvalue of $A$ if and only if it is an eigenvalue of $L_A$.
+
+From the above discussion, we conclude that,
+
+\begin{theorem}
+A linear operator $T$ on a finite-dimensional vector space $V$ is diagonalizable if and only if there exists an ordered basis $\B$ for $V$ consisting of eigenvectors of $T$. Furthermore, if $T$ is diagonalizable, $\B = \{v_1, v_2, \dots, v_n\}$ is an ordered basis of eigenvectors of $T$ and $D = [T]_\B$, then $D$ is a diagonal matrix and $D_{jj}$ is the eigenvalue corresponding to $v_j$ for $1 \le j \le n$.
+\end{theorem}
+
+\begin{theorem}
+Let $A \in M_{n \times n}(F)$. Then a scalar $\lambda$ is an eigenvalue of $A$ if and only if $\det(A - \lambda I_n) = 0$.
+\end{theorem}
+
+\begin{proof}
+A scalar $\lambda$ is an eigenvalue of $A$ if and only if there exists a non-zero vector $v \in F^n$ such that $v$ is an eigenvector for $A$, which implies that $A v = \lambda v$. Now,
+\[
+A v = \lambda v = \lambda (I_n v) \implies (A - \lambda I_n)(v) = 0.
+\]
+
+Now let $T : F^n \to F^n$ be a transformation defined by left-multiplying any vector $v$ by the matrix $(A - \lambda I_n)$. Thus,
+\[
+T(v) = (A - \lambda I_n) v.
+\]
+Thus we get $T(v) = 0$. Since $v$ is a non-zero vector, $N(T) \neq \{0\}$ and hence $T$ is not one-to-one, which means $T$ is not invertible.
+
+Since $T$ is not invertible, then $\rank(T) < n$. Let $\B$ be any ordered basis for $F^n$. Then $[T]_\B = A - \lambda I_n$. We know $\rank(T)=\rank([T]_\B)$, thus
+\[
+\rank(A - \lambda I_n) = \rank([T]_\B) = \rank(T) < n.
+\]
+We know $\det(A)=0$ if $\rank(A)<0$, thus
+\[
+\det(A - \lambda I_n) = 0.
+\]
+\end{proof}
+
+\begin{definition}
+Let $A \in M_{n \times n}(F)$. The polynomial $f(t) = \det(A - t I_n)$ is called the \textbf{characteristic polynomial} of $A$.
+\end{definition}
+
+Now if we consider two similar matrices $A$ and $B$ such that $B = P^{-1} A P$ for some invertible matrix $P$. Then,
+\begin{align*}
+\det(B - \lambda I_n) &= \det(P^{-1} A P - \lambda I_n) \\
+&= \det\left(P^{-1} A P - \lambda (P^{-1} I_n P)\right) \\
+&= \det\left(P^{-1} A P - P^{-1} (\lambda I_n) P\right) \\
+&= \det\left(P^{-1}(A - \lambda I_n) P\right) \\
+&= \det(P^{-1}) \cdot \det(A - \lambda I_n) \cdot \det(P) \\
+&= \frac{1}{\det(P)} \cdot \det(P) \cdot \det(A - \lambda I_n) \\
+&= \det(A - \lambda I_n).
+\end{align*}
+
+Thus, similar matrices have the same characteristic polynomial.
+
+Now let $T: V \to V$ be linear, and let $\B$ and $\mathscr{C}$ be ordered bases for $V$, and let $[T]_\B = A$ and $[T]_{\mathscr{C}} = B$. Then for some invertible matrix $Q$, by change of basis theorem for linear transformations,
+\[
+[T]_{\mathscr{C}} = Q^{-1} [T]_\B Q \quad \text{or} \quad B = Q^{-1} A Q.
+\]
+
+Since above we showed that similar matrices have the same characteristic polynomial, the characteristic polynomial of a linear operator on a finite-dimensional vector space is independent of the choice of basis. This helps us define the characteristic polynomial as:
+
+\begin{definition}
+Let $T$ be a linear operator on an $n$-dimensional vector space $V$ with ordered basis $\B$. We define the \textbf{characteristic polynomial} $f(t)$ of $T$ to be the characteristic polynomial of $A = [T]_\B$. That is,
+\[
+f(t) = \det(A - t I_n).
+\]
+\end{definition}
+
+\begin{remark}
+    Here, if $T$ is a linear operator on $V$ and $\B$ is an ordered basis for $V$ then $\lambda$ is an eigenvalue for $V$ if and only if $\lambda$ is an eigenvalue for $[T]_\B$. We denote the characteristic polynomial of an operator $T$ by $\det(T - \lambda I_n)$.
+\end{remark}
+
+\begin{theorem}
+Let $A \in M_{n \times n}(F)$.
+\begin{enumerate}
+    \item The characteristic polynomial of $A$ is a polynomial of degree $n$ with leading coefficient $(-1)^n$.
+    \item $A$ has at most $n$ distinct eigenvalues.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item Let $A \in M_{1 \times 1}(F)$ where $A = [A_{11}]$. Then the characteristic polynomial is,
+    \[
+    f(t) = \det(A - t I_1) = A_{11} - t = (-1)^1 t^1 + A_{11}
+    \]
+    which is a polynomial of degree 1 with leading coefficient $(-1)^1$. Thus the theorem holds true for $n=1$. Now let us assume that the theorem holds true for all $(n-1) \times (n-1)$ matrices over $F$. Now let $A \in M_{n \times n}(F)$ where $n \ge 2$, and let $B = A - t I_n$. So the entries of $B$ are given by,
+    \[
+    B_{ij} = \begin{cases} 
+    A_{ij} - t, & i = j \\ 
+    A_{ij}, & i \neq j 
+    \end{cases}
+    \]
+    Now let us compute the characteristic polynomial for $A$ by $A - t I_n$, which is also $B$. Thus,
+    \begin{align*}
+    f(t) = \det(B) &= \sum_{j=1}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= (-1)^{1+1} B_{11} \det(\widetilde{B}_{11}) + \sum_{j=2}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= (A_{11} - t) \det(\widetilde{B}_{11}) + \sum_{j=2}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}).
+    \end{align*}
+
+    Now $\widetilde{B}_{11}$ is obtained by deleting the 1st row and 1st column of $A - t I_n$, which corresponds to the characteristic matrix of an $(n-1) \times (n-1)$ submatrix of $A$. By inductive hypothesis,
+    \[
+    \det(\widetilde{B}_{11}) = (-1)^{n-1} t^{n-1} + g(t)
+    \]
+    where $g(t)$ is a polynomial such that $\deg(g) \le n-2$. Now for $j \ge 2$, the entries $B_{1j} = A_{1j}$ which are independent of $t$, and the submatrices $\widetilde{B}_{1j}$ lose two diagonal entries of $1$ and $j$, so there are at most $n-2$ diagonal entries. Thus, the degree of $\det(\widetilde{B}_{1j}) \le n-2$. Thus we can write $\displaystyle\sum_{j=2}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j})$ as a polynomial $q(t)$ of degree at most $n-2$.
+
+    Thus, $\deg(q(t)) \le n-2$. Therefore,
+    \begin{align*}
+    \det(B) &= (A_{11} - t)\left((-1)^{n-1} t^{n-1} + g(t)\right) + q(t) \\
+    &= (-1)^{n-1} A_{11} t^{n-1} + A_{11} g(t) + (-1)^n t^n - t g(t) + q(t).
+    \end{align*}
+
+    Here every term except $(-1)^n t^n$ is a polynomial of degree at most $n-1$. Thus,
+    \[
+    \det(B) = (-1)^n t^n + r(t)
+    \]
+    where $\deg(r(t)) \le n-1$. Thus $f(t)$ is a polynomial of degree $n$ with leading coefficient $(-1)^n$. Hence the theorem holds true for all $n \times n$ matrices.
+
+    \item If we let $\lambda$ as some scalar such that $\lambda$ is an eigenvalue for $A$, then by Theorem 2.2,
+    \[
+    \det(A - \lambda I_n) = 0.
+    \]
+    Thus we can say that the eigenvalues are roots of the characteristic polynomial. Since it is a polynomial of degree $n$ and the eigenvalue of $A$ corresponds to a distinct root of the polynomial. Since we know a polynomial of degree $n$ has at most $n$ distinct roots. Thus $A$ has at most $n$ distinct eigenvalues.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+    We can denote the characteristic polynomial $f(t)$ of a linear  operator by
+    \[
+    f(t)=(-1)^nt^n + a_{n-1}t^{n-1}+\ldots + a_1t+a_0
+    \]
+\end{remark}
+
+\begin{theorem}
+For any square matrix $A$, $A$ and $A^T$ have the same characteristic polynomial.
+\end{theorem}
+
+\begin{proof}
+Let $A \in M_{n \times n}(F)$ and let us take some non-zero scalar $t$. Then,
+\[
+(A - t I_n)^T = A^T - (t I_n)^T = A^T - t (I_n)^T = A^T - t I_n.
+\]
+Thus,
+\begin{align*}
+\det\left((A - t I_n)^T\right) &= \det(A^T - t I_n) \\
+\implies \det(A - t I_n) &= \det(A^T - t I_n) \quad [\because \, \det(A)=\det(A^T)]
+\end{align*}
+Hence, $A$ and $A^T$ have the same characteristic polynomial and hence will have same eigenvalues.
+\end{proof}
+
+\begin{theorem}
+Let $T$ be a linear operator on a vector space $V$ and let $x$ be an eigenvector of $T$ corresponding to the eigenvalue $\lambda$. For any positive integer $m$, then $x$ is an eigenvector of $T^m$ corresponding to the eigenvalue $\lambda^m$.
+\end{theorem}
+
+\begin{proof}
+We have $x$ is an eigenvector of $T$ corresponding to $\lambda$. Then $x \neq 0$ and $T(x) = \lambda x$. Applying the transformation again on $T(x)$, we get
+\begin{align*}
+T(T(x)) &= \lambda(T(x)) = \lambda(\lambda x) = \lambda^2 x \\
+\implies T^2(x) &= \lambda^2 x.
+\end{align*}
+Thus the theorem holds true for $m = 1, 2$. Let us assume that the theorem holds true for applying the transformation $m-1$ times. Thus,
+\[
+T^{m-1}(x) = \lambda^{m-1} x
+\]
+Applying the transformation again on $T^{m-1}(x)$, we get
+\begin{align*}
+T(T^{m-1}(x)) &= \lambda(T^{m-1}(x)) = \lambda(\lambda^{m-1} x) = \lambda^m x \\
+\implies T^m(x) &= \lambda^m x.
+\end{align*}
+Thus the theorem holds true for applying the transformation $m$-times for $m \in \mathbb{Z}^+$.
+\end{proof}
+
+\begin{corollary}
+    Let $A \in M_{n \times n}(F)$ and let $x \in F^n$ be an eigenvector of $A$ corresponding to the eigenvalue $\lambda$. Then for any positive integer $m$, $x$ is an eigenvector of $A^m$ corresponding to the eigenvalue $\lambda^m$.
+\end{corollary}
+
+\begin{proof}
+    Let $V = F^n$ and define the left-multiplication operator $L_A : V \to V$ by $L_A(y) = Ay$ for all $y \in V$. 
+
+Since $x$ is an eigenvector of $A$ corresponding to $\lambda$, we have $x \neq 0$ and $Ax = \lambda x$. Thus,
+\[
+L_A(x) = Ax = \lambda x
+\]
+which implies that $x$ is an eigenvector of $L_A$ corresponding to $\lambda$.
+
+By Theorem 2.5,
+\[
+L_A^m(x) = \lambda^m x
+\]
+
+Since $L_A^m = L_{A^m}$, it follows that:
+\[
+A^m x = L_{A^m}(x) = L_A^m(x) = \lambda^m x
+\]
+
+Because $x \neq 0$ and $A^m x = \lambda^m x$, $x$ is an eigenvector of $A^m$ corresponding to the eigenvalue $\lambda^m$.
+\end{proof}
+
+\begin{theorem}
+Let $A$ be an $n \times n$ matrix with characteristic polynomial
+\[
+f(t) = (-1)^n t^n + a_{n-1} t^{n-1} + \dots + a_1 t + a_0.
+\]
+Then $f(0) = a_0 = \det(A)$. Also $A$ is invertible if and only if $a_0 \neq 0$.
+\end{theorem}
+
+\begin{proof}
+We have
+\begin{align*}
+f(t) &= (-1)^n t^n + a_{n-1} t^{n-1} + \dots + a_1 t + a_0 \\
+\implies f(0) &= (-1)^n 0^n + a_{n-1} 0^{n-1} + \dots + a_1 0 + a_0 \\
+\implies f(0) &= a_0 \quad \tag{1}.
+\end{align*}
+
+We also know the characteristic polynomial of an $n \times n$ matrix $A$ is defined by
+\begin{align*}
+f(t) &= \det(A - t I_n) \\
+\implies f(0) &= \det(A - 0 \cdot I_n) \\
+\implies f(0) &= \det(A) \quad \tag{2}.
+\end{align*}
+
+From (1) and (2),
+\[
+f(0) = a_0 = \det(A).
+\]
+
+We know $A$ is invertible if and only if $\det(A) \neq 0$. Thus $A$ is invertible if and only if $a_0 \neq 0$.
+\end{proof}
+
+\begin{theorem}
+    Let $A$ and $f(t)$ be as in Theorem 2.6. Then,
+
+\begin{enumerate}
+    \item $f(t) = (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + q(t)$, where $q(t)$ is a polynomial of degree at most $n-2$.
+    \item $\tr(A) = (-1)^{n-1} a_{n-1}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item Let $A \in M_{2 \times 2}(F)$ such that
+    \[
+    A = \begin{bmatrix}
+    A_{11} & A_{12} \\
+    A_{21} & A_{22}
+    \end{bmatrix}
+    \]
+    Then the characteristic polynomial of $A$ is given by
+    \begin{align*}
+    f(t) = \det(A - t I_2) &= \det \left( \begin{bmatrix}
+    A_{11} - t & A_{12} \\
+    A_{21} & A_{22} - t
+    \end{bmatrix} \right) \\
+    &= (A_{11} - t)(A_{22} - t) - A_{12} A_{21} \\
+    &= (A_{11} - t)(A_{22} - t) - A_{12} A_{21} t^0 \\
+    &= (A_{11} - t)(A_{22} - t) + q(t)
+    \end{align*}
+    where $q(t)$ is a constant or a polynomial of degree at most $0$. Thus the theorem is true for $2 \times 2$ matrices. Now let us assume that the statement is true for $(n-1) \times (n-1)$ matrices where $q(t)$ is a polynomial of degree at most $(n-1) - 2 = n - 3$.
+
+    Now let $A \in M_{n \times n}(F)$, then its characteristic polynomial is given by
+    \[
+    f(t) = \det(A - t I_n)
+    \]
+    Let $B = A - t I_n$. Then the entries of $B$ are given by
+    \[
+    B_{ij} = \begin{cases}
+    A_{ij} - t, & i = j \\
+    A_{ij}, & i \neq j.
+    \end{cases}
+    \]
+    Thus,
+    \begin{align*}
+    \det(B) &= \sum_{j=1}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}) \\
+    &= (A_{11} - t) \det(\widetilde{B}_{11}) + \sum_{j=2}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j}).
+    \end{align*}
+
+    Here $\widetilde{B}_{11}$ is a matrix obtained by removing 1st row and 1st column from $A - t I_n$ and $\det(\widetilde{B}_{11})$ is the characteristic polynomial of that obtained matrix. By induction hypothesis,
+    \[
+    \det(\widetilde{B}_{11}) = (A_{22} - t)(A_{33} - t) \dots (A_{nn} - t) + g(t)
+    \]
+    where $g(t)$ is a polynomial of at most $n - 3$. Now,
+    \begin{align*}
+    (A_{11} - t) \det(\widetilde{B}_{11}) &= (A_{11} - t) \left[ (A_{22} - t)(A_{33} - t) \dots (A_{nn} - t) + g(t) \right] \\
+    &= (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + (A_{11} - t) g(t) \\
+    &= (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + \left( A_{11} g(t) - t g(t) \right).
+    \end{align*}
+    Here $r(t) = A_{11} g(t) - t g(t)$ is a polynomial of at most $n - 2$. Therefore,
+    \[
+    (A_{11} - t) \det(\widetilde{B}_{11}) = (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + r(t).
+    \]
+
+    Now for $j \ge 2$, $B_{1j} = A_{1j}$ which are independent of $t$, and the submatrices $\widetilde{B}_{1j}$ loses 2 of its diagonal entries, so there are at most $n - 2$ diagonal entries. Thus $\sum_{j=2}^{n} (-1)^{1+j} B_{1j} \det(\widetilde{B}_{1j})$ is a polynomial, say $p(t)$, of degree at most $n - 2$. Hence,
+    \begin{align*}
+    f(t) &= (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + r(t) + p(t) \\
+    &= (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + q(t)
+    \end{align*}
+    where $q(t)$ is a polynomial of degree at most $n - 2$. Thus the theorem holds true for $n \times n$ matrices for $n \in \mathbb{Z}^+$.
+
+    \item Let $A \in M_{2 \times 2}(F)$, then from part (1),
+    \begin{align*}
+    f(t) &= (A_{11} - t)(A_{22} - t) + q(t) \quad \text{where } \deg(q(t)) \le 2 - 2 = 0 \\
+    &= t^2 - (A_{11} + A_{22}) t + A_{11} A_{22} + q(t) \\
+    &= t^2 + (-1)^{2-1} \tr(A) t^{2-1} + r(t) \quad \left[ r(t) = A_{11} A_{22} + q(t) \right].
+    \end{align*}
+    Thus we observe that for $2 \times 2$ matrices its trace appears at $t^{2-1}$ with $(-1)^{2-1}$ in its characteristic polynomial. Let us make an inductive hypothesis that for $(n-1) \times (n-1)$ matrix the trace of that matrix appears at $t^{(n-1)-1}$ with $(-1)^{(n-1)-1}$ in its respective characteristic polynomial. Now let $A \in M_{n \times n}(F)$, then from part (1),
+    \[
+    f(t) = (A_{11} - t)(A_{22} - t) \dots (A_{nn} - t) + r(t) \quad \text{where } \deg(r(t)) \le n - 2.
+    \]
+    Since $\deg(r(t)) \le n - 2$, we can ignore it completely. Thus,
+    \[
+    f(t) = (A_{11} - t)(A_{22} - t) \dots (A_{(n-1)(n-1)} - t)(A_{nn} - t).
+    \]
+    By inductive hypothesis,
+    \begin{align*}
+    f(t) = \left[ (-1)^{n-1} t^{n-1} + (-1)^{n-2} (A_{11} + A_{22} + \dots + A_{(n-1)(n-1)}) t^{n-2}\right. \\
+    \left. + (\text{lower degree polynomials}) \right] (A_{nn} - t).
+    \end{align*}
+    Here we can again ignore the lower degree polynomials. Thus,
+    \begin{align*}
+    f(t) &= \left[ (-1)^{n-1} t^{n-1} + (-1)^{n-2} (A_{11} + A_{22} + \dots + A_{(n-1)(n-1)}) t^{n-2} \right] (A_{nn} - t) \\
+    &= (-1)^{n-1} A_{nn} t^{n-1} + (-1)^{n-2} A_{nn} (A_{11} + A_{22} + \dots + A_{(n-1)(n-1)}) t^{n-2} + (-1)^n t^n \\
+    &\quad + (-1)^{n-1} (A_{11} + A_{22} + \dots + A_{(n-1)(n-1)}) t^{n-1} \\
+    &= (-1)^n t^n + (-1)^{n-1} (A_{11} + A_{22} + \dots + A_{nn}) t^{n-1} + (\text{lower degree polynomials}) \\
+    &= (-1)^n t^n + (-1)^{n-1} \tr(A) t^{n-1} + (\text{lower degree polynomials}).
+    \end{align*}
+    Thus our hypothesis is true. Now from Theorem 2.6,
+    \[
+    f(t) = (-1)^n t^n + a_{n-1} t^{n-1} + (\text{lower degree polynomials}).
+    \]
+    Upon comparing, we get
+    \[
+    (-1)^{n-1} \tr(A) = a_{n-1} \implies \tr(A) = (-1)^{n-1} a_{n-1}.
+    \]
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+    The characteristic polynomial for an $n \times n$ matrix can be written as
+    \[
+    f(t)=(-1)^nt^n + (-1)^{n-1}\tr(A)t^{n-1}+a_{n-2}t^{n-2}+\ldots+a_1t+\det(A).
+    \]
+    For n=2, we get,
+    \[
+    f(t)=(-1)^2t^2 + (-1)^{2-1}tr(A)t^{2-1}+\det(A) = t^2 - \tr(A)t + \det(A).
+    \]
+\end{remark}
+
+\begin{theorem}
+Let $T$ be a linear operator on $V$, and let $\lambda$ be an eigenvalue of $T$. A vector $v \in V$ is an eigenvector of $T$, corresponding to $\lambda$ if and only if $v \neq 0$ and $v \in N(T - \lambda I)$.
+\end{theorem}
+
+\begin{proof}
+Let $v \in V$ be an eigenvector for $T$. Then by definition of eigenvector $v \neq 0$ and
+\begin{align*}
+T(v) &= \lambda v \\
+&= \lambda I(v) \\
+\implies T(v) - (\lambda I)(v) &= 0 \\
+\implies (T - \lambda I)(v) &= 0.
+\end{align*}
+Thus, $v \in N(T - \lambda I)$. Now let us assume $v \neq 0$ and $v \in N(T - \lambda I)$. Thus,
+\begin{align*}
+(T - \lambda I)(v) &= 0 \\
+\implies T(v) - \lambda I(v) &= 0 \\
+\implies T(v) - \lambda v &= 0 \\
+\implies T(v) &= \lambda v.
+\end{align*}
+Thus by definition $v \in V$ is an eigenvector for $T$. \qedhere
+\end{proof}
+
+\begin{remark}
+The set $N(T - \lambda I)$ is called the \textbf{eigenspace} of $T$ corresponding to the eigenvalue $\lambda$, denoted by $E_\lambda$. It consists of the zero vector together with all eigenvectors of $T$ corresponding to $\lambda$.
+\end{remark}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzcd}[row sep=huge, column sep=2cm, labels={font=\large}]
+        V \arrow[r, "T"] \arrow[d, "\phi_\B"]
+        & V \arrow[d, "\phi_\B"] \\
+        F^n \arrow[r, "L_A"]
+        & F^n
+    \end{tikzcd}
+\end{figure}
+
+Now, to find the eigenvectors of a linear operator $T$ on an $n$-dimensional vector space, let us select an ordered basis $\B$ for $V$ and let $A = [T]_\B$. Here we use a commutative diagram. Here for $\phi_\B(v) = [v]_\B$ the coordinate vector of $v$ relative to $\B$. We define $v \in V$ is an eigenvector of $T$ corresponding to $\lambda$ if and only if $\phi_\B(v)$ is an eigenvector of $A$ corresponding to $\lambda$.
+\[
+A \phi_\B(v) = L_A \phi_\B(v) = \phi_\B T(v) = \phi_\B(\lambda v) = \lambda \phi_\B(v).
+\]
+
+\begin{theorem}
+Let $T$ be a linear operator on a finite dimensional vector space $V$ over a field $F$, let $\B$ be an ordered basis for $V$ and let $A = [T]_\B$. In reference to
+\begin{figure}[h]
+    \centering
+    \begin{tikzcd}[row sep=huge, column sep=2cm, labels={font=\large}]
+        V \arrow[r, "T"] \arrow[d, "\phi_\B"]
+        & V \arrow[d, "\phi_\B"] \\
+        F^n \arrow[r, "L_A"]
+        & F^n
+    \end{tikzcd}
+\end{figure}
+\begin{enumerate}
+    \item If $v \in V$ and $\phi_\B(v)$ is an eigenvector of $A$ corresponding to the eigenvalue $\lambda$, then $v$ is an eigenvector of $T$ corresponding to $\lambda$.
+    \item If $\lambda$ is an eigenvalue of $A$ (and hence of $T$), then a vector $y \in F^n$ is an eigenvector of $A$ corresponding to $\lambda$ if and only if $\phi_\B^{-1}(y)$ is an eigenvector of $T$ corresponding to $\lambda$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item If $\phi_\B(v)$ is an eigenvector of $A$ corresponding to $\lambda$, then $\phi_\B(v) \neq 0$. As $\phi_\B$ is an isomorphism, $v \neq 0$ and also,
+    \begin{align*}
+    A \phi_\B(v) &= \lambda \phi_\B(v) \\
+    \implies [T]_\B [v]_\B &= \lambda [v]_\B.
+    \end{align*}
+    As $\phi_\B$ is linear and we know if $U, T \in \mathscr{L}(V)$, then $[UT]_\B = [U]_\B.[T]_\B$. Thus,
+    \begin{align*}
+    \implies [T(v)]_\B &= [\lambda v]_\B \\
+    \implies \phi_\B(T(v)) &= \phi_\B(\lambda v).
+    \end{align*}
+    As $\phi_\B$ is one-to-one,
+    \[
+    \implies T(v) = \lambda v.
+    \]
+    Thus, $v$ is an eigenvector of $T$ corresponding to $\lambda$.
+
+    From part (1) and theory we conclude that $\phi_\B(v)$ is an eigenvector of $A$ corresponding to $\lambda$ if and only if $v$ is an eigenvector of $T$ corresponding to $\lambda$.
+
+    \item Since we know $\phi_\B : V \to F^n$ is one-to-one and onto, then $\forall y \in F^n$, $\exists v \in V$ such that $\phi_\B(v) = y$, and since $\phi_\B$ is an isomorphism, hence it is invertible. Thus $v = \phi_\B^{-1}(y)$.
+
+    Now if $y$ is an eigenvector of $A$ corresponding to $\lambda$, then $y \neq 0$ and since $\phi_\B$ is an isomorphism, thus $v = \phi_\B^{-1}(y) \neq 0$.
+
+    Hence, $y = \phi_\B(v)$ is an eigenvector of $A$ corresponding to $\lambda$ if and only if $v = \phi_\B^{-1}(y)$ is an eigenvector of $T$ corresponding to $\lambda$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}
+Let $T$ be a linear operator on a finite dimensional vector space $V$ and let $\B$ be an ordered basis for $V$. Prove that $\lambda$ is an eigenvalue of $T$ if and only if $\lambda$ is an eigenvalue of $[T]_\B$.
+\end{theorem}
+
+\begin{proof}
+Let $A = [T]_\B \in M_{n \times n}(F)$ and let $\phi_\B : V \to F^n$ be the coordinate isomorphism defined by $\phi_\B(v) = [v]_\B$. Since $\B$ is an ordered basis, $\phi_\B$ is linear, one-to-one, and onto.
+
+\begin{itemize}
+    \item[$(\implies)$] Suppose $\lambda$ is an eigenvalue of $T$. Then there exists a non-zero eigenvector $v \in V$ such that $T(v) = \lambda v$. Since $\phi_\B$ is an isomorphism, $v \neq 0$ implies that $\phi_\B(v) = [v]_\B \neq 0$ in $F^n$. Taking the coordinate vectors on both sides of $T(v) = \lambda v$, we obtain:
+    \[
+    [T(v)]_\B = [\lambda v]_\B \implies [T]_\B [v]_\B = \lambda [v]_\B \implies A \phi_\B(v) = \lambda \phi_\B(v).
+    \]
+    Since $\phi_\B(v) \neq 0$, $\phi_\B(v)$ is an eigenvector of $A$ corresponding to $\lambda$. Hence, $\lambda$ is an eigenvalue of $A = [T]_\B$.
+
+    \item[$(\impliedby)$] Conversely, suppose $\lambda$ is an eigenvalue of $A = [T]_\B$. Then there exists a non-zero vector $y \in F^n$ such that $A y = \lambda y$. Because $\phi_\B$ is an isomorphism, there exists a unique non-zero vector $v \in V$ such that $\phi_\B(v) = y$ (that is, $v = \phi_\B^{-1}(y) \neq 0$). Substituting $[v]_\B = y$ into $A y = \lambda y$ gives:
+    \[
+    [T]_\B [v]_\B = \lambda [v]_\B \implies [T(v)]_\B = [\lambda v]_\B.
+    \]
+    Since $\phi_\B$ is one-to-one, $[T(v)]_\B = [\lambda v]_\B$ implies $T(v) = \lambda v$. Since $v \neq 0$, $v$ is an eigenvector of $T$ corresponding to $\lambda$. Hence, $\lambda$ is an eigenvalue of $T$.
+\end{itemize}
+
+Therefore, $\lambda$ is an eigenvalue of $T$ if and only if $\lambda$ is an eigenvalue of $[T]_\B$.
+\end{proof}
+
+\subsection*{Geometric Intuition}
+Let $v$ be an eigenvector of $T$ and $\lambda$ be the corresponding eigenvalue. We can think of $W = \text{span}(\{v\})$, the 1D subspace of $V$ spanned by $v$, as a line in $V$ that passes through $0$ and $v$. For any $w \in W$, $w = c v$ for some scalar $c$. Thus,
+\[
+T(w) = T(c v) = c T(v) = c \lambda v = \lambda w.
+\]
+So $T$ acts on the vectors in $W$ by multiplying each vector by $\lambda$.
+
+\begin{enumerate}
+    \item $(\lambda > 1)$: $T$ moves vectors in $W$ farther from $0$ by a factor of $\lambda$.
+    \item $(\lambda = 1)$: $T$ acts as identity operator on $W$.
+    \item $(0 < \lambda < 1)$: $T$ moves vectors in $W$ closer to $0$ by a factor of $\lambda$.
+    \item $(\lambda = 0)$: $T$ acts as $0$ transformation on $W$.
+    \item $(\lambda < 0)$: $T$ reverses orientation of $W$, i.e., $T$ moves vectors in $W$ from one side of $0$ to other.
+\end{enumerate}
+
+\section{Conclusion}
+In this paper, we have detailed the foundational framework governing the diagonalizability of linear operators on finite-dimensional vector spaces. By establishing the equivalence between operator diagonalizability and the existence of a basis consisting entirely of eigenvectors, we linked abstract linear transformations directly to structured matrix representations. The characteristic polynomial serves as a central invariant tool, demonstrating that spectral properties, trace, and determinant remain preserved under basis changes and matrix similarities. Furthermore, using coordinate isomorphisms, we connected coordinate vectors in $F^n$ to underlying spaces, showing how algebraic conditions on characteristic roots dictate the geometric scaling and orientation behavior of linear operators.  
+\begin{thebibliography}{9}
+    \bibitem{fis_linear_algebra}
+    Friedberg, S. H., Insel, A. J., \& Spence, L. E. (2018). \textit{Linear Algebra} (5th ed.). Pearson.
+\end{thebibliography}
+\end{document}
